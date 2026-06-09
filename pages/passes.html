@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Абонементы — SkiPass Manager</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" />
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="navbar__logo">SKI<span>PASS</span><br>MANAGER</a>
+      <nav class="navbar__links">
+        <a href="../index.html">Главная</a>
+        <a href="features.html">Функционал</a>
+        <a href="passes.html" class="active">Абонементы</a>
+        <a href="compare.html">Анализ</a>
+        <a href="team.html">О нас</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:10px">
+        <a href="register.html" class="btn btn--outline" style="padding:8px 14px;font-size:13px">
+          <i class="ti ti-user"></i> Войти
+        </a>
+        <a href="cart.html" class="btn btn--primary cart-nav-btn">
+          <i class="ti ti-shopping-cart"></i> Корзина
+          <span class="cart-badge" id="nav-cart-count">0</span>
+        </a>
+      </div>
+      <button class="navbar__burger" id="burger"><i class="ti ti-menu-2"></i></button>
+    </div>
+    <div class="mobile-nav" id="mobile-nav">
+      <a href="../index.html">Главная</a>
+      <a href="features.html">Функционал</a>
+      <a href="passes.html" class="active">Абонементы</a>
+      <a href="compare.html">Анализ</a>
+      <a href="team.html">О нас</a>
+      <a href="cart.html">Корзина</a>
+      <a href="register.html">Регистрация / Войти</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <p class="section__tag">Продукты</p>
+      <h1 class="page-hero__title">Типы абонементов</h1>
+      <p class="page-hero__sub">Гибкая система тарификации для разных категорий посетителей горнолыжного курорта.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="passes-grid">
+
+        <div class="pass-card">
+          <span class="pass-card__type">Базовый</span>
+          <span class="pass-card__name">Дневной</span>
+          <div class="pass-card__price">1 200 <span>сом / день</span></div>
+          <ul class="pass-card__features">
+            <li><i class="ti ti-check"></i>Все подъёмники</li>
+            <li><i class="ti ti-check"></i>Время катания 08:00–17:00</li>
+            <li><i class="ti ti-check"></i>RFID-карта включена</li>
+            <li><i class="ti ti-check"></i>Онлайн и в кассе</li>
+          </ul>
+          <button class="btn btn--primary btn--block"
+            onclick="addToCart({id:'daily',name:'Дневной абонемент',price:1200,meta:'08:00–17:00 · Все подъёмники'})">
+            <i class="ti ti-shopping-cart"></i> В корзину
+          </button>
+        </div>
+
+        <div class="pass-card pass-card--featured">
+          <div class="pass-card__badge">⭐ Популярный</div>
+          <span class="pass-card__type">Стандарт</span>
+          <span class="pass-card__name">Многодневный</span>
+          <div class="pass-card__price">5 500 <span>сом / 3 дня</span></div>
+          <ul class="pass-card__features">
+            <li><i class="ti ti-check"></i>Все подъёмники</li>
+            <li><i class="ti ti-check"></i>Время катания 08:00–20:00</li>
+            <li><i class="ti ti-check"></i>RFID-карта включена</li>
+            <li><i class="ti ti-check"></i>Онлайн-покупка</li>
+            <li><i class="ti ti-check"></i>Бонусные баллы</li>
+          </ul>
+          <button class="btn btn--primary btn--block"
+            onclick="addToCart({id:'multi',name:'Многодневный (3 дня)',price:5500,meta:'08:00–20:00 · Все подъёмники'})">
+            <i class="ti ti-shopping-cart"></i> В корзину
+          </button>
+        </div>
+
+        <div class="pass-card">
+          <span class="pass-card__type">Премиум</span>
+          <span class="pass-card__name">Сезонный</span>
+          <div class="pass-card__price">28 000 <span>сом / сезон</span></div>
+          <ul class="pass-card__features">
+            <li><i class="ti ti-check"></i>Все зоны и подъёмники</li>
+            <li><i class="ti ti-check"></i>Без ограничений по времени</li>
+            <li><i class="ti ti-check"></i>Приоритетный проход</li>
+            <li><i class="ti ti-check"></i>Расширенная бонусная программа</li>
+            <li><i class="ti ti-check"></i>Скидки партнёров курорта</li>
+          </ul>
+          <button class="btn btn--outline btn--block"
+            onclick="addToCart({id:'season',name:'Сезонный абонемент',price:28000,meta:'Полный сезон · Все зоны'})">
+            <i class="ti ti-shopping-cart"></i> В корзину
+          </button>
+        </div>
+
+        <div class="pass-card">
+          <span class="pass-card__type">Детский</span>
+          <span class="pass-card__name">До 12 лет</span>
+          <div class="pass-card__price">600 <span>сом / день</span></div>
+          <ul class="pass-card__features">
+            <li><i class="ti ti-check"></i>Учебные трассы</li>
+            <li><i class="ti ti-check"></i>Скидка 50% от взрослого</li>
+            <li><i class="ti ti-check"></i>Групповой тариф</li>
+            <li><i class="ti ti-check"></i>Сопровождение инструктора</li>
+          </ul>
+          <button class="btn btn--outline btn--block"
+            onclick="addToCart({id:'child',name:'Детский абонемент',price:600,meta:'До 12 лет · Учебные трассы'})">
+            <i class="ti ti-shopping-cart"></i> В корзину
+          </button>
+        </div>
+
+        <div class="pass-card">
+          <span class="pass-card__type">Корпоративный</span>
+          <span class="pass-card__name">Групповой</span>
+          <div class="pass-card__price">По запросу</div>
+          <ul class="pass-card__features">
+            <li><i class="ti ti-check"></i>От 10 человек</li>
+            <li><i class="ti ti-check"></i>Скидка до 20%</li>
+            <li><i class="ti ti-check"></i>Персональный менеджер</li>
+            <li><i class="ti ti-check"></i>Выставление счёта для юрлиц</li>
+          </ul>
+          <a href="booking.html" class="btn btn--outline btn--block">
+            <i class="ti ti-send"></i> Запросить
+          </a>
+        </div>
+
+        <div class="pass-card">
+          <span class="pass-card__type">Вечерний</span>
+          <span class="pass-card__name">Ночное катание</span>
+          <div class="pass-card__price">800 <span>сом / вечер</span></div>
+          <ul class="pass-card__features">
+            <li><i class="ti ti-check"></i>Трассы с освещением</li>
+            <li><i class="ti ti-check"></i>Время 18:00–22:00</li>
+            <li><i class="ti ti-check"></i>RFID-карта включена</li>
+          </ul>
+          <button class="btn btn--outline btn--block"
+            onclick="addToCart({id:'night',name:'Вечерний (ночное катание)',price:800,meta:'18:00–22:00 · Освещённые трассы'})">
+            <i class="ti ti-shopping-cart"></i> В корзину
+          </button>
+        </div>
+
+      </div>
+
+      <div style="text-align:center;margin-top:2.5rem">
+        <a href="cart.html" class="btn btn--primary">
+          <i class="ti ti-shopping-cart"></i> Перейти в корзину
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__logo">SKIPASS MANAGER</span>
+      <span class="footer__copy">Дипломная работа · Система управления продажей абонементов и ски-пассов</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/cart.js"></script>
+</body>
+</html>

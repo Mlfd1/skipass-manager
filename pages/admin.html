@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Админ-панель — SkiPass Manager</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css"/>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="navbar__logo">SKI<span>PASS</span><br>MANAGER</a>
+      <nav class="navbar__links">
+        <a href="../index.html">Главная</a>
+        <a href="passes.html">Абонементы</a>
+        <a href="admin.html" class="active">Админ</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:12px;color:var(--muted);background:var(--bg-2);padding:6px 12px;border-radius:var(--radius-md);border:.5px solid var(--border)">
+          <i class="ti ti-shield-check" style="color:var(--blue-300)"></i> Администратор
+        </span>
+        <a href="register.html" class="btn btn--outline" style="padding:8px 14px;font-size:13px">
+          <i class="ti ti-logout"></i> Выйти
+        </a>
+      </div>
+      <button class="navbar__burger" id="burger"><i class="ti ti-menu-2"></i></button>
+    </div>
+    <div class="mobile-nav" id="mobile-nav">
+      <a href="../index.html">Главная</a>
+      <a href="passes.html">Абонементы</a>
+      <a href="admin.html" class="active">Админ-панель</a>
+      <a href="register.html">Выйти</a>
+    </div>
+  </header>
+
+  <!-- Проверка пароля -->
+  <div id="admin-login-screen" style="display:none">
+    <section class="section" style="padding-top:3rem">
+      <div class="container" style="max-width:400px">
+        <div class="auth-form">
+          <div class="auth-form__head">
+            <div class="auth-form__icon" style="background:#e53935;color:#fff">
+              <i class="ti ti-shield-lock"></i>
+            </div>
+            <h1 class="auth-form__title">Вход для администратора</h1>
+            <p class="auth-form__sub">Введите пароль администратора</p>
+          </div>
+          <div class="form-group" style="margin-bottom:1rem">
+            <label>Пароль</label>
+            <div class="input-eye">
+              <input type="password" id="admin-pass-input" placeholder="Введите пароль"/>
+              <button type="button" onclick="togglePass('admin-pass-input',this)"><i class="ti ti-eye"></i></button>
+            </div>
+          </div>
+          <div id="admin-pass-error" class="auth-error" style="display:none">Неверный пароль</div>
+          <button class="btn btn--primary btn--block" onclick="checkAdminPass()">
+            <i class="ti ti-login"></i> Войти
+          </button>
+          <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:.75rem">
+            Подсказка для демо: <strong>admin123</strong>
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Основной контент админки -->
+  <div id="admin-main" style="display:none">
+    <section class="page-hero">
+      <div class="container">
+        <p class="section__tag">Управление системой</p>
+        <h1 class="page-hero__title">Панель администратора</h1>
+        <p class="page-hero__sub">Управление абонементами, просмотр заказов и пользователей.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="admin-layout">
+
+          <!-- Сайдбар -->
+          <div class="admin-sidebar">
+            <p class="admin-sidebar__title">Навигация</p>
+            <button class="admin-nav-link active" onclick="showPanel('dashboard',this)">
+              <i class="ti ti-layout-dashboard"></i> Дашборд
+            </button>
+            <button class="admin-nav-link" onclick="showPanel('passes-panel',this)">
+              <i class="ti ti-ticket"></i> Абонементы
+            </button>
+            <button class="admin-nav-link" onclick="showPanel('orders-panel',this)">
+              <i class="ti ti-shopping-cart"></i> Заказы
+            </button>
+            <button class="admin-nav-link" onclick="showPanel('users-panel',this)">
+              <i class="ti ti-users"></i> Пользователи
+            </button>
+            <button class="admin-nav-link" onclick="showPanel('promo-panel',this)">
+              <i class="ti ti-discount"></i> Промокоды
+            </button>
+            <div style="border-top:.5px solid var(--border);margin:1rem 0;padding-top:1rem">
+              <button class="admin-nav-link" onclick="location.href='../index.html'">
+                <i class="ti ti-arrow-left"></i> На сайт
+              </button>
+            </div>
+          </div>
+
+          <!-- Панели -->
+          <div>
+
+            <!-- ДАШБОРД -->
+            <div class="admin-panel active" id="dashboard">
+              <h2 style="font-family:'Unbounded',sans-serif;font-size:18px;font-weight:600;margin-bottom:1.5rem">
+                Обзор системы
+              </h2>
+              <div class="admin-stats">
+                <div class="admin-stat">
+                  <span class="admin-stat__val" id="admin-orders-count">0</span>
+                  <span class="admin-stat__lbl">Заказов всего</span>
+                  <span class="admin-stat__chg">↑ обновляется</span>
+                </div>
+                <div class="admin-stat">
+                  <span class="admin-stat__val" id="admin-revenue">0 сом</span>
+                  <span class="admin-stat__lbl">Выручка</span>
+                  <span class="admin-stat__chg">↑ сезон 2024–2025</span>
+                </div>
+                <div class="admin-stat">
+                  <span class="admin-stat__val" id="admin-users-count">0</span>
+                  <span class="admin-stat__lbl">Пользователей</span>
+                  <span class="admin-stat__chg">↑ зарегистрировано</span>
+                </div>
+                <div class="admin-stat">
+                  <span class="admin-stat__val" id="admin-passes-count">6</span>
+                  <span class="admin-stat__lbl">Типов абонементов</span>
+                  <span class="admin-stat__chg">В каталоге</span>
+                </div>
+              </div>
+
+              <!-- Мини-графики продаж -->
+              <div class="dash-preview" style="margin-bottom:1.5rem">
+                <div class="dash-header">
+                  <h3><i class="ti ti-chart-bar" style="font-size:15px;vertical-align:-2px;margin-right:6px"></i>Продажи по типам</h3>
+                  <span id="dash-last-update">—</span>
+                </div>
+                <div id="dash-bars">
+                  <p style="font-size:13px;color:var(--muted);text-align:center;padding:1rem 0">
+                    Оформите первый заказ — данные появятся здесь
+                  </p>
+                </div>
+              </div>
+
+              <!-- Последние заказы -->
+              <h3 style="font-size:14px;font-weight:500;margin-bottom:1rem">Последние заказы</h3>
+              <div id="recent-orders-list">
+                <p style="font-size:13px;color:var(--muted)">Заказов пока нет</p>
+              </div>
+            </div>
+
+            <!-- АБОНЕМЕНТЫ -->
+            <div class="admin-panel" id="passes-panel">
+              <h2 style="font-family:'Unbounded',sans-serif;font-size:18px;font-weight:600;margin-bottom:1.5rem">
+                Управление абонементами
+              </h2>
+
+              <!-- Форма добавления -->
+              <div class="admin-form">
+                <p class="admin-form__title"><i class="ti ti-plus" style="color:var(--blue-300)"></i> Добавить абонемент</p>
+                <div class="form-row" style="margin-bottom:12px">
+                  <div class="form-group">
+                    <label>Название</label>
+                    <input type="text" id="new-pass-name" placeholder="Дневной абонемент"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Цена (сом)</label>
+                    <input type="number" id="new-pass-price" placeholder="1200"/>
+                  </div>
+                </div>
+                <div class="form-row" style="margin-bottom:12px">
+                  <div class="form-group">
+                    <label>Тип</label>
+                    <select id="new-pass-type">
+                      <option>Базовый</option>
+                      <option>Стандарт</option>
+                      <option>Премиум</option>
+                      <option>Детский</option>
+                      <option>Вечерний</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Срок действия</label>
+                    <select id="new-pass-duration">
+                      <option>1 день</option>
+                      <option>3 дня</option>
+                      <option>7 дней</option>
+                      <option>Сезон</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group" style="margin-bottom:1rem">
+                  <label>Описание</label>
+                  <input type="text" id="new-pass-desc" placeholder="Все подъёмники, 08:00–17:00"/>
+                </div>
+                <button class="btn btn--primary" onclick="addAdminPass()">
+                  <i class="ti ti-device-floppy"></i> Сохранить
+                </button>
+              </div>
+
+              <!-- Таблица -->
+              <div class="admin-table-wrap">
+                <table class="admin-table" id="passes-table">
+                  <thead>
+                    <tr>
+                      <th>Название</th>
+                      <th>Тип</th>
+                      <th>Цена</th>
+                      <th>Срок</th>
+                      <th>Статус</th>
+                      <th>Действия</th>
+                    </tr>
+                  </thead>
+                  <tbody id="passes-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- ЗАКАЗЫ -->
+            <div class="admin-panel" id="orders-panel">
+              <h2 style="font-family:'Unbounded',sans-serif;font-size:18px;font-weight:600;margin-bottom:1.5rem">
+                Все заказы
+              </h2>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>№ заказа</th>
+                      <th>Дата</th>
+                      <th>Состав</th>
+                      <th>Сумма</th>
+                      <th>Скидка</th>
+                      <th>Статус</th>
+                    </tr>
+                  </thead>
+                  <tbody id="orders-tbody"></tbody>
+                </table>
+              </div>
+              <p id="orders-empty" style="font-size:13px;color:var(--muted);padding:1rem 0">
+                Заказов пока нет
+              </p>
+            </div>
+
+            <!-- ПОЛЬЗОВАТЕЛИ -->
+            <div class="admin-panel" id="users-panel">
+              <h2 style="font-family:'Unbounded',sans-serif;font-size:18px;font-weight:600;margin-bottom:1.5rem">
+                Пользователи
+              </h2>
+              <div id="users-content">
+                <p style="font-size:13px;color:var(--muted)">Зарегистрированных пользователей пока нет</p>
+              </div>
+            </div>
+
+            <!-- ПРОМОКОДЫ -->
+            <div class="admin-panel" id="promo-panel">
+              <h2 style="font-family:'Unbounded',sans-serif;font-size:18px;font-weight:600;margin-bottom:1.5rem">
+                Промокоды
+              </h2>
+              <div class="admin-form">
+                <p class="admin-form__title"><i class="ti ti-plus" style="color:var(--blue-300)"></i> Создать промокод</p>
+                <div class="form-row" style="margin-bottom:12px">
+                  <div class="form-group">
+                    <label>Код</label>
+                    <input type="text" id="new-promo-code" placeholder="WINTER25" style="text-transform:uppercase"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Скидка (%)</label>
+                    <input type="number" id="new-promo-pct" placeholder="10" min="1" max="100"/>
+                  </div>
+                </div>
+                <button class="btn btn--primary" onclick="addPromoCode()">
+                  <i class="ti ti-device-floppy"></i> Сохранить
+                </button>
+              </div>
+
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr><th>Код</th><th>Скидка</th><th>Использований</th><th>Статус</th><th>Действие</th></tr>
+                  </thead>
+                  <tbody id="promo-tbody">
+                    <tr>
+                      <td><strong>SKI2025</strong></td>
+                      <td>10%</td>
+                      <td id="promo-used-ski">0</td>
+                      <td><span class="badge-active">Активен</span></td>
+                      <td><button class="btn btn--outline" style="padding:4px 10px;font-size:12px" onclick="deactivatePromo(this)">Деактивировать</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div><!-- /panels -->
+        </div><!-- /admin-layout -->
+      </div>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__logo">SKIPASS MANAGER</span>
+      <span class="footer__copy">Дипломная работа · Система управления продажей абонементов и ски-пассов</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/cart.js"></script>
+  <script>
+  const ADMIN_KEY   = 'skipass_admin_auth';
+  const ADMIN_PASSES_KEY = 'skipass_admin_passes';
+
+  /* ── Дефолтные абонементы ── */
+  const DEFAULT_PASSES = [
+    { id:'daily',  name:'Дневной абонемент',       type:'Базовый',   price:1200,  duration:'1 день',  desc:'08:00–17:00 · Все подъёмники', active:true },
+    { id:'multi',  name:'Многодневный (3 дня)',     type:'Стандарт',  price:5500,  duration:'3 дня',   desc:'08:00–20:00 · Бонусные баллы', active:true },
+    { id:'season', name:'Сезонный абонемент',       type:'Премиум',   price:28000, duration:'Сезон',   desc:'Без ограничений · Все зоны',   active:true },
+    { id:'child',  name:'Детский абонемент',        type:'Детский',   price:600,   duration:'1 день',  desc:'До 12 лет · Учебные трассы',   active:true },
+    { id:'night',  name:'Вечерний (ночное катание)',type:'Вечерний',  price:800,   duration:'1 вечер', desc:'18:00–22:00 · Освещённые трассы',active:true },
+    { id:'corp',   name:'Корпоративный / Групповой',type:'Корп.',     price:0,     duration:'—',       desc:'От 10 человек · Скидка 20%',   active:true },
+  ];
+
+  function getAdminPasses() {
+    try { return JSON.parse(localStorage.getItem(ADMIN_PASSES_KEY)) || DEFAULT_PASSES; }
+    catch { return DEFAULT_PASSES; }
+  }
+  function saveAdminPasses(p) {
+    localStorage.setItem(ADMIN_PASSES_KEY, JSON.stringify(p));
+  }
+
+  /* ── Авторизация ── */
+  function checkAdminPass() {
+    const val = document.getElementById('admin-pass-input').value;
+    if (val === 'admin123') {
+      localStorage.setItem(ADMIN_KEY, '1');
+      showAdminMain();
+    } else {
+      document.getElementById('admin-pass-error').style.display = 'block';
+    }
+  }
+
+  function showAdminMain() {
+    document.getElementById('admin-login-screen').style.display = 'none';
+    document.getElementById('admin-main').style.display         = 'block';
+    loadDashboard();
+    loadPassesTable();
+    loadOrdersTable();
+    loadUsersTable();
+  }
+
+  /* ── Панели ── */
+  function showPanel(id, btn) {
+    document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.admin-nav-link').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  /* ── Дашборд ── */
+  function loadDashboard() {
+    const orders = getOrders();
+    // Счётчики
+    document.getElementById('admin-orders-count').textContent = orders.length;
+    document.getElementById('admin-revenue').textContent      =
+      orders.reduce((s,o) => s + o.total, 0).toLocaleString('ru-RU') + ' сом';
+
+    const user = JSON.parse(localStorage.getItem('skipass_user') || 'null');
+    document.getElementById('admin-users-count').textContent  = user ? 1 : 0;
+    document.getElementById('admin-passes-count').textContent = getAdminPasses().length;
+
+    // Дата обновления
+    document.getElementById('dash-last-update').textContent =
+      new Date().toLocaleTimeString('ru-RU', {hour:'2-digit',minute:'2-digit'});
+
+    // Мини-бары по типам
+    if (orders.length > 0) {
+      const counts = {};
+      orders.forEach(o => o.items.forEach(it => {
+        counts[it.name] = (counts[it.name] || 0) + it.qty;
+      }));
+      const max = Math.max(...Object.values(counts));
+      const barsEl = document.getElementById('dash-bars');
+      barsEl.innerHTML = Object.entries(counts).slice(0,5).map(([name, cnt]) => `
+        <div class="mini-bar-row">
+          <span class="mini-bar-lbl">${name.split(' ')[0]}</span>
+          <div class="mini-bar-track">
+            <div class="mini-bar-fill" style="width:${Math.round(cnt/max*100)}%"></div>
+          </div>
+          <span class="mini-bar-val">${cnt} шт.</span>
+        </div>`).join('');
+    }
+
+    // Последние заказы
+    const recentEl = document.getElementById('recent-orders-list');
+    if (orders.length === 0) {
+      recentEl.innerHTML = '<p style="font-size:13px;color:var(--muted)">Заказов пока нет</p>';
+    } else {
+      recentEl.innerHTML = `<div class="orders-list">` +
+        orders.slice(0,5).map(o => `
+          <div class="order-card">
+            <div class="order-card__head">
+              <span class="order-card__num">${o.id}</span>
+              <span class="order-card__date">${o.date}</span>
+              <span class="order-card__status">${o.status}</span>
+            </div>
+            <div class="order-card__total">
+              <span style="font-size:13px;color:var(--muted)">${o.items.map(i=>i.name).join(', ')}</span>
+              <span class="order-card__total-val">${o.total.toLocaleString('ru-RU')} сом</span>
+            </div>
+          </div>`).join('') + `</div>`;
+    }
+  }
+
+  /* ── Таблица абонементов ── */
+  function loadPassesTable() {
+    const passes = getAdminPasses();
+    const tbody  = document.getElementById('passes-tbody');
+    tbody.innerHTML = passes.map((p,i) => `
+      <tr>
+        <td><strong>${p.name}</strong><br><span style="font-size:11px;color:var(--muted)">${p.desc}</span></td>
+        <td>${p.type}</td>
+        <td>${p.price > 0 ? p.price.toLocaleString('ru-RU') + ' сом' : 'По запросу'}</td>
+        <td>${p.duration}</td>
+        <td><span class="${p.active ? 'badge-active' : 'badge-inactive'}">${p.active ? 'Активен' : 'Скрыт'}</span></td>
+        <td style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn btn--outline" style="padding:4px 10px;font-size:12px" onclick="togglePass(${i})">
+            ${p.active ? 'Скрыть' : 'Показать'}
+          </button>
+          <button class="btn btn--danger" style="padding:4px 10px;font-size:12px" onclick="deletePass(${i})">
+            Удалить
+          </button>
+        </td>
+      </tr>`).join('');
+  }
+
+  function togglePass(i) {
+    const passes = getAdminPasses();
+    passes[i].active = !passes[i].active;
+    saveAdminPasses(passes);
+    loadPassesTable();
+  }
+  function deletePass(i) {
+    if (!confirm('Удалить этот абонемент?')) return;
+    const passes = getAdminPasses();
+    passes.splice(i,1);
+    saveAdminPasses(passes);
+    loadPassesTable();
+    document.getElementById('admin-passes-count').textContent = passes.length;
+  }
+  function addAdminPass() {
+    const name  = document.getElementById('new-pass-name').value.trim();
+    const price = parseInt(document.getElementById('new-pass-price').value) || 0;
+    const type  = document.getElementById('new-pass-type').value;
+    const dur   = document.getElementById('new-pass-duration').value;
+    const desc  = document.getElementById('new-pass-desc').value.trim();
+    if (!name) { alert('Введите название'); return; }
+    const passes = getAdminPasses();
+    passes.push({ id: 'custom_' + Date.now(), name, type, price, duration: dur, desc, active: true });
+    saveAdminPasses(passes);
+    loadPassesTable();
+    document.getElementById('new-pass-name').value  = '';
+    document.getElementById('new-pass-price').value = '';
+    document.getElementById('new-pass-desc').value  = '';
+    document.getElementById('admin-passes-count').textContent = passes.length;
+  }
+
+  /* ── Таблица заказов ── */
+  function loadOrdersTable() {
+    const orders = getOrders();
+    const tbody  = document.getElementById('orders-tbody');
+    const empty  = document.getElementById('orders-empty');
+    if (orders.length === 0) {
+      tbody.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    tbody.innerHTML = orders.map(o => `
+      <tr>
+        <td><strong>${o.id}</strong></td>
+        <td>${o.date}</td>
+        <td style="font-size:12px;color:var(--muted)">${o.items.map(i=>`${i.name} ×${i.qty}`).join('<br>')}</td>
+        <td><strong>${o.total.toLocaleString('ru-RU')} сом</strong></td>
+        <td>${o.discount > 0 ? `−${o.discount.toLocaleString('ru-RU')} сом` : '—'}</td>
+        <td><span class="badge-paid">${o.status}</span></td>
+      </tr>`).join('');
+  }
+
+  /* ── Пользователи ── */
+  function loadUsersTable() {
+    const user = JSON.parse(localStorage.getItem('skipass_user') || 'null');
+    const cont = document.getElementById('users-content');
+    if (!user) {
+      cont.innerHTML = '<p style="font-size:13px;color:var(--muted)">Зарегистрированных пользователей нет</p>';
+      return;
+    }
+    const orders = getOrders();
+    cont.innerHTML = `
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Имя</th><th>Email</th><th>Телефон</th><th>Дата рождения</th><th>Заказов</th><th>Потрачено</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>${user.name}</strong></td>
+              <td>${user.email}</td>
+              <td>${user.phone || '—'}</td>
+              <td>${user.dob ? new Date(user.dob).toLocaleDateString('ru-RU') : '—'}</td>
+              <td>${orders.length}</td>
+              <td>${orders.reduce((s,o)=>s+o.total,0).toLocaleString('ru-RU')} сом</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>`;
+  }
+
+  /* ── Промокоды ── */
+  function addPromoCode() {
+    const code = (document.getElementById('new-promo-code').value || '').trim().toUpperCase();
+    const pct  = document.getElementById('new-promo-pct').value;
+    if (!code || !pct) { alert('Заполните все поля'); return; }
+    const tbody = document.getElementById('promo-tbody');
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><strong>${code}</strong></td>
+      <td>${pct}%</td>
+      <td>0</td>
+      <td><span class="badge-active">Активен</span></td>
+      <td><button class="btn btn--outline" style="padding:4px 10px;font-size:12px" onclick="deactivatePromo(this)">Деактивировать</button></td>`;
+    tbody.appendChild(row);
+    document.getElementById('new-promo-code').value = '';
+    document.getElementById('new-promo-pct').value  = '';
+  }
+
+  function deactivatePromo(btn) {
+    const row    = btn.closest('tr');
+    const badge  = row.querySelector('.badge-active, .badge-inactive');
+    if (badge.classList.contains('badge-active')) {
+      badge.textContent = 'Отключён';
+      badge.className   = 'badge-inactive';
+      btn.textContent   = 'Активировать';
+    } else {
+      badge.textContent = 'Активен';
+      badge.className   = 'badge-active';
+      btn.textContent   = 'Деактивировать';
+    }
+  }
+
+  function togglePass_admin(id, btn) {
+    const inp = document.getElementById(id);
+    inp.type = inp.type === 'password' ? 'text' : 'password';
+    btn.innerHTML = inp.type === 'password'
+      ? '<i class="ti ti-eye"></i>'
+      : '<i class="ti ti-eye-off"></i>';
+  }
+
+  /* ── Инициализация ── */
+  (function init() {
+    if (localStorage.getItem(ADMIN_KEY) === '1') {
+      showAdminMain();
+    } else {
+      document.getElementById('admin-login-screen').style.display = 'block';
+    }
+  })();
+  </script>
+</body>
+</html>

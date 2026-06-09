@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Сравнительный анализ — SkiPass Manager</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" />
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="navbar__logo">SKI<span>PASS</span><br>MANAGER</a>
+      <nav class="navbar__links">
+        <a href="../index.html">Главная</a>
+        <a href="features.html">Функционал</a>
+        <a href="passes.html">Абонементы</a>
+        <a href="compare.html" class="active">Анализ</a>
+        <a href="about.html">О проекте</a>
+      </nav>
+      <a href="booking.html" class="btn btn--primary"><i class="ti ti-ticket"></i> Купить пропуск</a>
+      <button class="navbar__burger" id="burger"><i class="ti ti-menu-2"></i></button>
+    </div>
+    <div class="mobile-nav" id="mobile-nav">
+      <a href="../index.html">Главная</a>
+      <a href="features.html">Функционал</a>
+      <a href="passes.html">Абонементы</a>
+      <a href="compare.html" class="active">Анализ</a>
+      <a href="about.html">О проекте</a>
+      <a href="booking.html">Купить пропуск</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <p class="section__tag">Теоретическая база</p>
+      <h1 class="page-hero__title">Сравнительный анализ систем</h1>
+      <p class="page-hero__sub">
+        Анализ мировых и региональных аналогов — обоснование актуальности
+        разработки для горнолыжных курортов Кыргызстана.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="section__tag">Основное сравнение</p>
+      <h2 class="section__title">Системы мира vs Кыргызстан</h2>
+      <p class="section__lead">
+        Выделенные строки — горнолыжные базы Кыргызстана, для которых разрабатывается данная система.
+      </p>
+      <div class="compare-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Система / Курорт</th>
+              <th>Страна</th>
+              <th>Онлайн-продажа</th>
+              <th>RFID / NFC</th>
+              <th>Моб. приложение</th>
+              <th>Аналитика</th>
+              <th>Многозонность</th>
+              <th>Динам. цены</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="sys-name">Skidata</span><span class="sys-sub">Verbier, Kitzbühel</span></td>
+              <td>Австрия</td>
+              <td><i class="ti ti-check ico-yes"></i></td><td><i class="ti ti-check ico-yes"></i></td>
+              <td><i class="ti ti-check ico-yes"></i></td><td><i class="ti ti-check ico-yes"></i></td>
+              <td><i class="ti ti-check ico-yes"></i></td><td><i class="ti ti-check ico-yes"></i></td>
+            </tr>
+            <tr>
+              <td><span class="sys-name">Axess AG</span><span class="sys-sub">Ski Amadé, Zillertal Arena</span></td>
+              <td>Австрия</td>
+              <td><i class="ti ti-check ico-yes"></i></td><td><i class="ti ti-check ico-yes"></i></td>
+              <td><i class="ti ti-check ico-yes"></i></td><td><i class="ti ti-check ico-yes"></i></td>
+              <td><i class="ti ti-check ico-yes"></i></td><td><i class="ti ti-check ico-yes"></i></td>
+            </tr>
+            <tr>
+              <td><span class="sys-name">Alturos Destinations</span><span class="sys-sub">Schladming-Dachstein</span></td>
+              <td>Австрия</td>
+              <td><i class="ti ti-check ico-yes"></i></td><td><i class="ti ti-check ico-yes"></i></td>
+              <td><i class="ti ti-check ico-yes"></i></td><td><i class="ti ti-check ico-yes"></i></td>
+              <td><i class="ti ti-check ico-yes"></i></td><td><i class="ti ti-minus ico-mid"></i></td>
+            </tr>
+            <tr>
+              <td><span class="sys-name">Ikon Pass / Liftopia</span><span class="sys-sub">Aspen, Mammoth Mountain</span></td>
+              <td>США</td>
+              <td><i class="ti ti-check ico-yes"></i></td><td><i class="ti ti-check ico-yes"></i></td>
+              <td><i class="ti ti-check ico-yes"></i></td><td><i class="ti ti-check ico-yes"></i></td>
+              <td><i class="ti ti-check ico-yes"></i></td><td><i class="ti ti-check ico-yes"></i></td>
+            </tr>
+            <tr>
+              <td><span class="sys-name">Розовый Хутор</span><span class="sys-sub">Сочи, Красная Поляна</span></td>
+              <td>Россия</td>
+              <td><i class="ti ti-check ico-yes"></i></td><td><i class="ti ti-check ico-yes"></i></td>
+              <td><i class="ti ti-check ico-yes"></i></td><td><i class="ti ti-check ico-yes"></i></td>
+              <td><i class="ti ti-check ico-yes"></i></td><td><i class="ti ti-minus ico-mid"></i></td>
+            </tr>
+            <tr>
+              <td><span class="sys-name">Шерегеш</span><span class="sys-sub">Кемеровская область</span></td>
+              <td>Россия</td>
+              <td><i class="ti ti-check ico-yes"></i></td><td><i class="ti ti-check ico-yes"></i></td>
+              <td><i class="ti ti-minus ico-mid"></i></td><td><i class="ti ti-minus ico-mid"></i></td>
+              <td><i class="ti ti-minus ico-mid"></i></td><td><i class="ti ti-x ico-no"></i></td>
+            </tr>
+            <tr>
+              <td><span class="sys-name">Эльбрус</span><span class="sys-sub">Кабардино-Балкария</span></td>
+              <td>Россия</td>
+              <td><i class="ti ti-minus ico-mid"></i></td><td><i class="ti ti-check ico-yes"></i></td>
+              <td><i class="ti ti-x ico-no"></i></td><td><i class="ti ti-x ico-no"></i></td>
+              <td><i class="ti ti-minus ico-mid"></i></td><td><i class="ti ti-x ico-no"></i></td>
+            </tr>
+            <tr class="highlight">
+              <td><span class="sys-name">Каракол Ски</span><span class="sys-sub">Каракол, КР 🇰🇬</span></td>
+              <td>Кыргызстан</td>
+              <td><i class="ti ti-x ico-no"></i></td><td><i class="ti ti-x ico-no"></i></td>
+              <td><i class="ti ti-x ico-no"></i></td><td><i class="ti ti-x ico-no"></i></td>
+              <td><i class="ti ti-x ico-no"></i></td><td><i class="ti ti-x ico-no"></i></td>
+            </tr>
+            <tr class="highlight">
+              <td><span class="sys-name">Чункурчак</span><span class="sys-sub">Бишкек, КР 🇰🇬</span></td>
+              <td>Кыргызстан</td>
+              <td><i class="ti ti-x ico-no"></i></td><td><i class="ti ti-x ico-no"></i></td>
+              <td><i class="ti ti-x ico-no"></i></td><td><i class="ti ti-x ico-no"></i></td>
+              <td><i class="ti ti-x ico-no"></i></td><td><i class="ti ti-x ico-no"></i></td>
+            </tr>
+            <tr class="highlight">
+              <td><span class="sys-name">Норус / Орловка</span><span class="sys-sub">Бишкек, КР 🇰🇬</span></td>
+              <td>Кыргызстан</td>
+              <td><i class="ti ti-x ico-no"></i></td><td><i class="ti ti-x ico-no"></i></td>
+              <td><i class="ti ti-x ico-no"></i></td><td><i class="ti ti-x ico-no"></i></td>
+              <td><i class="ti ti-x ico-no"></i></td><td><i class="ti ti-x ico-no"></i></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:12px">
+        <i class="ti ti-info-circle" style="font-size:14px;vertical-align:-2px"></i>&nbsp;Легенда:
+        <i class="ti ti-check ico-yes" style="font-size:14px;vertical-align:-2px"></i> реализовано &nbsp;|&nbsp;
+        <i class="ti ti-minus ico-mid" style="font-size:14px;vertical-align:-2px"></i> частично &nbsp;|&nbsp;
+        <i class="ti ti-x ico-no" style="font-size:14px;vertical-align:-2px"></i> отсутствует
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="section__tag">Обоснование актуальности</p>
+      <h2 class="section__title">Почему нужна эта система</h2>
+      <p class="section__lead">Выводы сравнительного анализа для дипломной работы.</p>
+      <div class="features-grid">
+        <div class="feat-card">
+          <div class="feat-card__icon"><i class="ti ti-alert-triangle"></i></div>
+          <h3>Отсутствие автоматизации</h3>
+          <p>Горнолыжные курорты Кыргызстана работают с бумажными и ручными системами учёта, что ведёт к потерям выручки и очередям.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-card__icon"><i class="ti ti-trending-up"></i></div>
+          <h3>Рост туризма</h3>
+          <p>Туристический поток на горнолыжные курорты страны растёт ежегодно, требуя масштабируемых цифровых решений.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-card__icon"><i class="ti ti-world"></i></div>
+          <h3>Мировой опыт доказан</h3>
+          <p>Skidata и Axess работают на 12 000+ курортах мира, демонстрируя рост выручки на 15–30% после внедрения.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-card__icon"><i class="ti ti-coin"></i></div>
+          <h3>Экономическая эффективность</h3>
+          <p>Онлайн-продажа снижает нагрузку на кассу, уменьшает затраты на персонал и увеличивает конверсию продаж.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__logo">SKIPASS MANAGER</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

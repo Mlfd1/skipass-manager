@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkiPass Manager — Система управления продажей абонементов</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" />
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="index.html" class="navbar__logo">SKI<span>PASS</span><br>MANAGER</a>
+      <nav class="navbar__links">
+        <a href="index.html" class="active">Главная</a>
+        <a href="pages/features.html">Функционал</a>
+        <a href="pages/passes.html">Абонементы</a>
+        <a href="pages/compare.html">Анализ</a>
+        <a href="pages/team.html">О нас</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:10px">
+        <a href="pages/register.html" class="btn btn--outline" style="padding:8px 14px;font-size:13px">
+          <i class="ti ti-user"></i> Войти
+        </a>
+        <a href="pages/cart.html" class="btn btn--primary cart-nav-btn">
+          <i class="ti ti-shopping-cart"></i> Корзина
+          <span class="cart-badge" id="nav-cart-count">0</span>
+        </a>
+      </div>
+      <button class="navbar__burger" id="burger" aria-label="Меню">
+        <i class="ti ti-menu-2"></i>
+      </button>
+    </div>
+    <div class="mobile-nav" id="mobile-nav">
+      <a href="index.html" class="active">Главная</a>
+      <a href="pages/features.html">Функционал</a>
+      <a href="pages/passes.html">Абонементы</a>
+      <a href="pages/compare.html">Анализ</a>
+      <a href="pages/team.html">О нас</a>
+      <a href="pages/cart.html">Корзина</a>
+      <a href="pages/register.html">Регистрация / Войти</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero__badge">
+        <i class="ti ti-mountain"></i>
+        Горнолыжный курорт &middot; Цифровизация
+      </div>
+      <h1 class="hero__title">
+        Система управления<br>
+        <em>продажей абонементов</em><br>
+        и ски-пассов
+      </h1>
+      <p class="hero__sub">
+        Дипломная работа по разработке автоматизированной информационной
+        системы для горнолыжных курортов Кыргызстана. Онлайн-продажа,
+        RFID-валидация, аналитика в реальном времени.
+      </p>
+      <div class="hero__actions">
+        <a href="pages/passes.html" class="btn btn--primary">
+          <i class="ti ti-shopping-cart"></i> Купить абонемент
+        </a>
+        <a href="pages/compare.html" class="btn btn--outline">
+          <i class="ti ti-chart-bar"></i> Сравнительный анализ
+        </a>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-card__num">3+</span>
+          <span class="stat-card__lbl">Курорта в Кыргызстане</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__num">10+</span>
+          <span class="stat-card__lbl">Мировых аналогов</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__num">100%</span>
+          <span class="stat-card__lbl">Автоматизация продаж</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="section__tag">Возможности</p>
+      <h2 class="section__title">Что умеет система</h2>
+      <p class="section__lead">
+        Комплексная платформа для управления продажами, валидацией
+        пропусков и аналитикой горнолыжного курорта.
+      </p>
+      <div class="features-grid">
+        <div class="feat-card">
+          <div class="feat-card__icon"><i class="ti ti-shopping-cart"></i></div>
+          <h3>Онлайн-продажа</h3>
+          <p>Покупка абонементов через сайт и мобильное приложение круглосуточно без очередей.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-card__icon"><i class="ti ti-credit-card"></i></div>
+          <h3>RFID / NFC карты</h3>
+          <p>Бесконтактные пропуска для мгновенного прохода через турникеты подъёмников.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-card__icon"><i class="ti ti-chart-line"></i></div>
+          <h3>Аналитика</h3>
+          <p>Статистика продаж, посещаемости и загрузки трасс в реальном времени.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-card__icon"><i class="ti ti-users"></i></div>
+          <h3>Личный кабинет</h3>
+          <p>История покупок, управление абонементами и бонусные баллы для каждого клиента.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-card__icon"><i class="ti ti-discount"></i></div>
+          <h3>Динамические цены</h3>
+          <p>Автоматическое изменение стоимости в зависимости от сезона и загруженности.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-card__icon"><i class="ti ti-building-store"></i></div>
+          <h3>Касса и POS</h3>
+          <p>Интеграция с кассовым оборудованием и поддержка нескольких точек продаж.</p>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:2rem">
+        <a href="pages/features.html" class="btn btn--outline">
+          Подробнее о функционале <i class="ti ti-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__logo">SKIPASS MANAGER</span>
+      <span class="footer__copy">
+        Дипломная работа &middot; Система управления продажей абонементов и ски-пассов
+      </span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>
+<!-- Найди этот блок в index.html и замени -->
+<div style="display:flex;align-items:center;gap:10px">
+  <a href="pages/admin.html" class="btn btn--outline" style="padding:8px 14px;font-size:13px">
+    <i class="ti ti-shield"></i> Админ
+  </a>
+  <a href="pages/register.html" class="btn btn--outline" style="padding:8px 14px;font-size:13px">
+    <i class="ti ti-user"></i> Войти
+  </a>
+  <a href="pages/cart.html" class="btn btn--primary cart-nav-btn">
+    <i class="ti ti-shopping-cart"></i> Корзина
+    <span class="cart-badge" id="nav-cart-count">0</span>
+  </a>
+</div>

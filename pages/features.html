@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Функционал — SkiPass Manager</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" />
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="navbar__logo">SKI<span>PASS</span><br>MANAGER</a>
+      <nav class="navbar__links">
+        <a href="../index.html">Главная</a>
+        <a href="features.html" class="active">Функционал</a>
+        <a href="passes.html">Абонементы</a>
+        <a href="compare.html">Анализ</a>
+        <a href="about.html">О проекте</a>
+      </nav>
+      <a href="booking.html" class="btn btn--primary">
+        <i class="ti ti-ticket"></i> Купить пропуск
+      </a>
+      <button class="navbar__burger" id="burger"><i class="ti ti-menu-2"></i></button>
+    </div>
+    <div class="mobile-nav" id="mobile-nav">
+      <a href="../index.html">Главная</a>
+      <a href="features.html" class="active">Функционал</a>
+      <a href="passes.html">Абонементы</a>
+      <a href="compare.html">Анализ</a>
+      <a href="about.html">О проекте</a>
+      <a href="booking.html">Купить пропуск</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <p class="section__tag">Функциональность</p>
+      <h1 class="page-hero__title">Возможности системы</h1>
+      <p class="page-hero__sub">
+        Комплексная платформа для управления продажами, валидацией
+        пропусков, аналитикой и взаимодействием с клиентами.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="tab-modules">Основные модули</button>
+        <button class="tab-btn" data-tab="tab-dashboard">Дашборд</button>
+        <button class="tab-btn" data-tab="tab-process">Процесс продажи</button>
+      </div>
+
+      <div class="tab-panel active" id="tab-modules">
+        <div class="features-grid">
+          <div class="feat-card">
+            <div class="feat-card__icon"><i class="ti ti-shopping-cart"></i></div>
+            <h3>Онлайн-продажа</h3>
+            <p>Покупка абонементов через сайт и мобильное приложение круглосуточно без очередей у кассы.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-card__icon"><i class="ti ti-credit-card"></i></div>
+            <h3>RFID / NFC карты</h3>
+            <p>Бесконтактные пропуска. Турникет считывает карту менее чем за 0.5 сек и открывает проход.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-card__icon"><i class="ti ti-chart-line"></i></div>
+            <h3>Аналитика в реальном времени</h3>
+            <p>Статистика продаж, посещаемости и загрузки каждой трассы и подъёмника в реальном времени.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-card__icon"><i class="ti ti-users"></i></div>
+            <h3>Личный кабинет клиента</h3>
+            <p>История покупок, управление активными абонементами, бонусная программа и уведомления.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-card__icon"><i class="ti ti-discount"></i></div>
+            <h3>Динамические цены</h3>
+            <p>Система автоматически корректирует стоимость в зависимости от загруженности и сезона.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-card__icon"><i class="ti ti-building-store"></i></div>
+            <h3>Касса и POS-терминал</h3>
+            <p>Интеграция с кассовым оборудованием. Поддержка нескольких кассовых точек на курорте.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-card__icon"><i class="ti ti-bell"></i></div>
+            <h3>Уведомления</h3>
+            <p>SMS и email-оповещения о покупках, истечении абонементов и акциях курорта.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-card__icon"><i class="ti ti-lock"></i></div>
+            <h3>Ролевой доступ</h3>
+            <p>Разграничение прав: администратор, кассир, оператор подъёмника, руководство.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-card__icon"><i class="ti ti-refresh"></i></div>
+            <h3>Офлайн-режим</h3>
+            <p>Турникеты работают автономно при отсутствии интернета с последующей синхронизацией.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-dashboard">
+        <div class="dash-preview">
+          <div class="dash-header">
+            <h3><i class="ti ti-layout-dashboard" style="font-size:15px;vertical-align:-2px;margin-right:6px"></i>Панель управления — Каракол Ски</h3>
+            <span>Сезон 2024–2025</span>
+          </div>
+          <div class="dash-metrics">
+            <div class="dm"><div class="dm__val">1 284</div><div class="dm__lbl">Пропусков сегодня</div><div class="dm__chg">↑ +12%</div></div>
+            <div class="dm"><div class="dm__val">487 600</div><div class="dm__lbl">Выручка (сом)</div><div class="dm__chg">↑ +8%</div></div>
+            <div class="dm"><div class="dm__val">94%</div><div class="dm__lbl">Загрузка трасс</div><div class="dm__chg">↑ +5%</div></div>
+            <div class="dm"><div class="dm__val">312</div><div class="dm__lbl">Онлайн-покупок</div><div class="dm__chg">↑ +24%</div></div>
+          </div>
+          <div class="dash-bars">
+            <p class="dash-bars__title">Продажи по типам абонементов</p>
+            <div class="bar-row"><span class="bar-lbl">Дневной</span><div class="bar-track"><div class="bar-fill" style="width:82%"></div></div><span class="bar-val">82%</span></div>
+            <div class="bar-row"><span class="bar-lbl">Многодневный</span><div class="bar-track"><div class="bar-fill" style="width:54%"></div></div><span class="bar-val">54%</span></div>
+            <div class="bar-row"><span class="bar-lbl">Сезонный</span><div class="bar-track"><div class="bar-fill" style="width:37%"></div></div><span class="bar-val">37%</span></div>
+            <div class="bar-row"><span class="bar-lbl">Детский</span><div class="bar-track"><div class="bar-fill" style="width:29%"></div></div><span class="bar-val">29%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tab-process">
+        <div class="workflow">
+          <div class="wf-step"><div class="wf-num">1</div><div class="wf-body"><h4>Регистрация клиента</h4><p>Пользователь создаёт аккаунт через сайт или мобильное приложение, указывает имя, телефон и email.</p></div></div>
+          <div class="wf-step"><div class="wf-num">2</div><div class="wf-body"><h4>Выбор абонемента</h4><p>Выбор типа пропуска (дневной, многодневный, сезонный, детский), даты начала и количества человек.</p></div></div>
+          <div class="wf-step"><div class="wf-num">3</div><div class="wf-body"><h4>Оплата</h4><p>Оплата банковской картой онлайн или наличными/картой в кассе курорта. Чек отправляется на email.</p></div></div>
+          <div class="wf-step"><div class="wf-num">4</div><div class="wf-body"><h4>Привязка к RFID-карте</h4><p>Система автоматически привязывает пропуск к RFID-карте клиента или печатает новую на кассе.</p></div></div>
+          <div class="wf-step"><div class="wf-num">5</div><div class="wf-body"><h4>Валидация на подъёмнике</h4><p>Турникет считывает карту, система проверяет действительность пропуска и открывает проход менее чем за 0.5 секунды.</p></div></div>
+          <div class="wf-step"><div class="wf-num">6</div><div class="wf-body"><h4>Аналитика и отчётность</h4><p>Все посещения, транзакции и данные загрузки трасс фиксируются и отображаются в дашборде руководства.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__logo">SKIPASS MANAGER</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

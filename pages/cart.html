@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Корзина — SkiPass Manager</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css"/>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="navbar__logo">SKI<span>PASS</span><br>MANAGER</a>
+      <nav class="navbar__links">
+        <a href="../index.html">Главная</a>
+        <a href="features.html">Функционал</a>
+        <a href="passes.html">Абонементы</a>
+        <a href="compare.html">Анализ</a>
+        <a href="team.html">О нас</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:10px">
+        <a href="register.html" class="btn btn--outline" style="padding:8px 14px;font-size:13px">
+          <i class="ti ti-user"></i> Войти
+        </a>
+        <a href="cart.html" class="btn btn--primary cart-nav-btn">
+          <i class="ti ti-shopping-cart"></i> Корзина
+          <span class="cart-badge" id="nav-cart-count">0</span>
+        </a>
+      </div>
+      <button class="navbar__burger" id="burger"><i class="ti ti-menu-2"></i></button>
+    </div>
+    <div class="mobile-nav" id="mobile-nav">
+      <a href="../index.html">Главная</a>
+      <a href="features.html">Функционал</a>
+      <a href="passes.html">Абонементы</a>
+      <a href="compare.html">Анализ</a>
+      <a href="team.html">О нас</a>
+      <a href="cart.html" class="active">Корзина</a>
+      <a href="register.html">Войти</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <p class="section__tag">Покупка</p>
+      <h1 class="page-hero__title">Корзина</h1>
+      <p class="page-hero__sub">Проверьте выбранные абонементы и перейдите к оплате.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container cart-layout">
+
+      <div class="cart-items-col">
+        <div id="cart-empty" style="display:none;text-align:center;padding:4rem 0">
+          <i class="ti ti-shopping-cart-off" style="font-size:56px;color:var(--muted);display:block;margin-bottom:1rem"></i>
+          <p style="font-size:15px;color:var(--muted);margin-bottom:1.5rem">Корзина пуста</p>
+          <a href="passes.html" class="btn btn--primary">
+            <i class="ti ti-ticket"></i> Выбрать абонемент
+          </a>
+        </div>
+        <div id="cart-list"></div>
+      </div>
+
+      <div class="cart-summary" id="cart-summary" style="display:none">
+        <h3 class="cart-summary__title">Итого</h3>
+        <div class="cart-summary__row">
+          <span>Товаров</span>
+          <span id="sum-count">0</span>
+        </div>
+        <div class="cart-summary__row">
+          <span>Скидка</span>
+          <span id="sum-discount" style="color:var(--green-400)">0 сом</span>
+        </div>
+        <div class="cart-summary__row cart-summary__row--total">
+          <span>К оплате</span>
+          <span id="sum-total">0 сом</span>
+        </div>
+
+        <div style="margin:1.25rem 0;padding:1rem;background:var(--bg-2);border-radius:var(--radius-md);border:.5px solid var(--border)">
+          <label style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:block;margin-bottom:6px;font-weight:500">Промокод</label>
+          <div style="display:flex;gap:8px">
+            <input type="text" id="promo-input" placeholder="SKI2025"
+              style="flex:1;padding:8px 12px;font-size:13px;font-family:'Onest',sans-serif;background:var(--bg);border:.5px solid var(--border-md);border-radius:var(--radius-md);color:var(--text);outline:none"/>
+            <button class="btn btn--outline" onclick="applyPromo()" style="padding:8px 14px;font-size:13px">Применить</button>
+          </div>
+          <p id="promo-msg" style="font-size:12px;margin-top:6px;display:none"></p>
+        </div>
+
+        <!-- Кнопка перехода на страницу оплаты -->
+        <button class="btn btn--primary btn--block" onclick="redirectToPayment()" style="margin-bottom:10px">
+          <i class="ti ti-credit-card"></i> Перейти к оплате
+        </button>
+        <a href="passes.html" class="btn btn--outline btn--block">
+          <i class="ti ti-arrow-left"></i> Продолжить покупки
+        </a>
+        <p style="font-size:11px;color:var(--muted);margin-top:1rem;text-align:center">
+          <i class="ti ti-shield-lock" style="font-size:13px;vertical-align:-2px"></i>
+          Безопасная оплата
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__logo">SKIPASS MANAGER</span>
+      <span class="footer__copy">Дипломная работа · Система управления продажей абонементов и ски-пассов</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/cart.js"></script>
+</body>
+</html>

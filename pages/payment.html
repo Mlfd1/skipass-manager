@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Оплата — SkiPass Manager</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css"/>
+  <!-- Библиотека генерации QR-кодов -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
+  <style>
+    /* ── Шаги оплаты ── */
+    .payment-steps {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 2.5rem;
+    }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .step__circle {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Unbounded', sans-serif;
+      font-size: 13px; font-weight: 700;
+      background: var(--bg-3);
+      color: var(--muted);
+      border: 2px solid var(--border);
+      transition: all .3s;
+    }
+    .step__circle.active {
+      background: var(--blue-300);
+      color: #fff;
+      border-color: var(--blue-300);
+    }
+    .step__circle.done {
+      background: var(--green-400);
+      color: #fff;
+      border-color: var(--green-400);
+    }
+    .step__label {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .step__label.active { color: var(--blue-300); font-weight: 500; }
+    .step__label.done   { color: var(--green-400); }
+    .step-line {
+      width: 60px; height: 2px;
+      background: var(--border);
+      margin: 0 8px;
+      margin-bottom: 22px;
+      flex-shrink: 0;
+    }
+    .step-line.done { background: var(--green-400); }
+
+    /* ── Экраны оплаты ── */
+    .pay-screen { display: none; }
+    .pay-screen.active { display: block; }
+
+    /* ── Методы оплаты ── */
+    .pay-methods {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+    .pay-method {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+    .pay-method:hover { border-color: var(--blue-300); background: var(--blue-50); }
+    .pay-method.selected { border-color: var(--blue-300); background: var(--blue-50); }
+    .pay-method i { font-size: 28px; color: var(--blue-300); display: block; margin-bottom: 6px; }
+    .pay-method__name { font-size: 13px; font-weight: 500; }
+    .pay-method__sub  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    /* ── Форма карты ── */
+    .card-form { display: none; margin-bottom: 1.5rem; }
+    .card-form.show { display: block; }
+    .card-input-wrap {
+      background: var(--bg-2);
+      border: .5px solid var(--border-md);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .card-input-wrap label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .card-input-wrap input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      font-family: 'Onest', sans-serif;
+      color: var(--text);
+      letter-spacing: .05em;
+    }
+
+    /* ── Загрузка ── */
+    .pay-loader {
+      text-align: center;
+      padding: 3rem 0;
+    }
+    .pay-loader__spinner {
+      width: 52px; height: 52px;
+      border: 3px solid var(--blue-50);
+      border-top: 3px solid var(--blue-300);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1.25rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .pay-loader__text {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+    .pay-loader__sub { font-size: 13px; color: var(--muted); }
+    .pay-progress {
+      width: 220px;
+      height: 4px;
+      background: var(--bg-3);
+      border-radius: 2px;
+      margin: 1.25rem auto 0;
+      overflow: hidden;
+    }
+    .pay-progress__fill {
+      height: 100%;
+      background: var(--blue-300);
+      border-radius: 2px;
+      width: 0%;
+      animation: progress 2.5s ease forwards;
+    }
+    @keyframes progress { to { width: 100%; } }
+
+    /* ── QR экран ── */
+    .qr-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .qr-card {
+      background: #fff;
+      border-radius: var(--radius-xl);
+      padding: 1.5rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,.12);
+      margin-bottom: 1.5rem;
+      display: inline-block;
+    }
+    .qr-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      margin-bottom: .75rem;
+      font-weight: 500;
+    }
+    .qr-order-num {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--blue-300);
+      margin-bottom: .25rem;
+    }
+    .qr-date {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+    .qr-items {
+      background: var(--bg-2);
+      border-radius: var(--radius-md);
+      padding: .75rem 1rem;
+      margin-bottom: 1.5rem;
+      text-align: left;
+      width: 100%;
+      max-width: 400px;
+    }
+    .qr-items__title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--muted);
+      font-weight: 500;
+      margin-bottom: .5rem;
+    }
+    .qr-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      padding: 4px 0;
+      border-bottom: .5px solid var(--border);
+    }
+    .qr-item:last-child { border-bottom: none; }
+    .qr-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: .75rem 1rem;
+      background: var(--blue-50);
+      border-radius: var(--radius-md);
+      margin-bottom: 1.5rem;
+      width: 100%;
+      max-width: 400px;
+    }
+    .qr-total__lbl { font-size: 13px; color: var(--muted); }
+    .qr-total__val {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--blue-300);
+    }
+    .qr-hint {
+      font-size: 12px;
+      color: var(--muted);
+      max-width: 340px;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .qr-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* Анимация появления QR */
+    .qr-appear {
+      animation: qrPop .5s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes qrPop {
+      from { transform: scale(.6); opacity: 0; }
+      to   { transform: scale(1);  opacity: 1; }
+    }
+
+    /* Успех-иконка */
+    .success-icon {
+      width: 64px; height: 64px;
+      background: var(--green-400);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem;
+      animation: popIn .4s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes popIn {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    .success-icon i { font-size: 30px; color: #fff; }
+
+    @media (max-width: 600px) {
+      .step-line { width: 30px; }
+      .pay-methods { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="navbar__logo">SKI<span>PASS</span><br>MANAGER</a>
+      <nav class="navbar__links">
+        <a href="../index.html">Главная</a>
+        <a href="passes.html">Абонементы</a>
+        <a href="cart.html">Корзина</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:10px">
+        <a href="register.html" class="btn btn--outline" style="padding:8px 14px;font-size:13px">
+          <i class="ti ti-user"></i> Войти
+        </a>
+        <a href="cart.html" class="btn btn--primary cart-nav-btn">
+          <i class="ti ti-shopping-cart"></i> Корзина
+          <span class="cart-badge" id="nav-cart-count">0</span>
+        </a>
+      </div>
+      <button class="navbar__burger" id="burger"><i class="ti ti-menu-2"></i></button>
+    </div>
+    <div class="mobile-nav" id="mobile-nav">
+      <a href="../index.html">Главная</a>
+      <a href="passes.html">Абонементы</a>
+      <a href="cart.html">Корзина</a>
+      <a href="register.html">Войти</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <p class="section__tag">Оформление заказа</p>
+      <h1 class="page-hero__title">Оплата</h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width:560px">
+
+      <!-- ШАГИ -->
+      <div class="payment-steps" id="pay-steps">
+        <div class="step">
+          <div class="step__circle done" id="s1"><i class="ti ti-check" style="font-size:16px"></i></div>
+          <span class="step__label done">Корзина</span>
+        </div>
+        <div class="step-line done" id="l1"></div>
+        <div class="step">
+          <div class="step__circle active" id="s2">2</div>
+          <span class="step__label active" id="sl2">Оплата</span>
+        </div>
+        <div class="step-line" id="l2"></div>
+        <div class="step">
+          <div class="step__circle" id="s3">3</div>
+          <span class="step__label" id="sl3">Ваш пропуск</span>
+        </div>
+      </div>
+
+      <!-- Сводка заказа -->
+      <div id="order-summary-box" style="background:var(--bg-2);border:.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1.5rem">
+        <p style="font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:500;margin-bottom:.75rem">
+          Ваш заказ
+        </p>
+        <div id="summary-items"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-top:.75rem;border-top:.5px solid var(--border);margin-top:.5rem">
+          <span style="font-size:13px;color:var(--muted)" id="summary-discount-row"></span>
+          <span style="font-family:'Unbounded',sans-serif;font-size:20px;font-weight:700;color:var(--blue-300)" id="summary-total"></span>
+        </div>
+      </div>
+
+      <!-- ШАГ 2: Выбор метода оплаты -->
+      <div class="pay-screen active" id="screen-method">
+        <h3 style="font-size:15px;font-weight:500;margin-bottom:1.25rem">Выберите способ оплаты</h3>
+
+        <div class="pay-methods" id="pay-methods-grid">
+          <div class="pay-method" onclick="selectMethod(this,'card')" data-method="card">
+            <i class="ti ti-credit-card"></i>
+            <div class="pay-method__name">Банковская карта</div>
+            <div class="pay-method__sub">Visa, Mastercard</div>
+          </div>
+          <div class="pay-method" onclick="selectMethod(this,'mbank')" data-method="mbank">
+            <i class="ti ti-device-mobile"></i>
+            <div class="pay-method__name">MBank</div>
+            <div class="pay-method__sub">Мобильный банк</div>
+          </div>
+          <div class="pay-method" onclick="selectMethod(this,'optima')" data-method="optima">
+            <i class="ti ti-building-bank"></i>
+            <div class="pay-method__name">Optima Pay</div>
+            <div class="pay-method__sub">Интернет-банк</div>
+          </div>
+          <div class="pay-method" onclick="selectMethod(this,'cash')" data-method="cash">
+            <i class="ti ti-cash"></i>
+            <div class="pay-method__name">Наличные</div>
+            <div class="pay-method__sub">На кассе курорта</div>
+          </div>
+        </div>
+
+        <!-- Форма карты — появляется при выборе "Банковская карта" -->
+        <div class="card-form" id="card-form">
+          <div class="card-input-wrap">
+            <label>Номер карты</label>
+            <input type="text" id="card-num" placeholder="0000 0000 0000 0000"
+              maxlength="19" oninput="formatCard(this)"/>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div class="card-input-wrap">
+              <label>Срок действия</label>
+              <input type="text" id="card-exp" placeholder="MM/YY"
+                maxlength="5" oninput="formatExp(this)"/>
+            </div>
+            <div class="card-input-wrap">
+              <label>CVV / CVC</label>
+              <input type="password" id="card-cvv" placeholder="•••" maxlength="3"/>
+            </div>
+          </div>
+          <div class="card-input-wrap">
+            <label>Имя на карте</label>
+            <input type="text" id="card-name" placeholder="AIDAN ASANOVA"
+              style="text-transform:uppercase"/>
+          </div>
+        </div>
+
+        <div id="method-error" style="display:none;font-size:13px;color:#e24b4a;margin-bottom:1rem;padding:10px 14px;background:#fff0f0;border-radius:var(--radius-md);border:.5px solid #e24b4a"></div>
+
+        <button class="btn btn--primary btn--block" onclick="proceedToPayment()" style="margin-bottom:10px">
+          <i class="ti ti-lock"></i> Оплатить
+        </button>
+        <a href="cart.html" class="btn btn--outline btn--block">
+          <i class="ti ti-arrow-left"></i> Вернуться в корзину
+        </a>
+        <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:.75rem">
+          <i class="ti ti-shield-lock" style="font-size:13px;vertical-align:-2px"></i>
+          Данные передаются по защищённому соединению TLS
+        </p>
+      </div>
+
+      <!-- ШАГ LOADING: Обработка платежа -->
+      <div class="pay-screen" id="screen-loading">
+        <div class="pay-loader">
+          <div class="pay-loader__spinner"></div>
+          <p class="pay-loader__text" id="loading-text">Обрабатываем платёж...</p>
+          <p class="pay-loader__sub" id="loading-sub">Пожалуйста, не закрывайте страницу</p>
+          <div class="pay-progress"><div class="pay-progress__fill" id="progress-fill"></div></div>
+        </div>
+      </div>
+
+      <!-- ШАГ 3: QR-код и подтверждение -->
+      <div class="pay-screen" id="screen-success">
+        <div class="qr-wrap">
+
+          <div class="success-icon">
+            <i class="ti ti-check"></i>
+          </div>
+          <h2 style="font-family:'Unbounded',sans-serif;font-size:20px;font-weight:700;margin-bottom:.5rem">
+            Оплата прошла успешно!
+          </h2>
+          <p style="font-size:14px;color:var(--muted);margin-bottom:2rem">
+            Ваш ски-пасс готов. Предъявите QR-код на турникете подъёмника.
+          </p>
+
+          <!-- QR-карточка -->
+          <div class="qr-card qr-appear">
+            <p class="qr-label">Ски-пасс · SkiPass Manager</p>
+            <div id="qr-canvas-wrap" style="margin:0 auto 1rem;display:flex;justify-content:center"></div>
+            <p class="qr-order-num" id="qr-order-num">—</p>
+            <p class="qr-date" id="qr-order-date">—</p>
+          </div>
+
+          <!-- Состав заказа -->
+          <div class="qr-items" id="qr-items-list"></div>
+
+          <!-- Итого -->
+          <div class="qr-total">
+            <span class="qr-total__lbl" id="qr-discount-row"></span>
+            <span class="qr-total__val" id="qr-total-val">0 сом</span>
+          </div>
+
+          <p class="qr-hint">
+            <i class="ti ti-info-circle" style="font-size:15px;vertical-align:-3px;color:var(--blue-300)"></i>
+            Сохраните QR-код — он является вашим пропуском. Скан производится на каждом подъёмнике. Подтверждение также отправлено на email.
+          </p>
+
+          <div class="qr-actions">
+            <button class="btn btn--primary" onclick="downloadQR()">
+              <i class="ti ti-download"></i> Скачать QR
+            </button>
+            <a href="register.html" class="btn btn--outline">
+              <i class="ti ti-user"></i> Мои заказы
+            </a>
+            <a href="../index.html" class="btn btn--outline">
+              <i class="ti ti-home"></i> На главную
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__logo">SKIPASS MANAGER</span>
+      <span class="footer__copy">Дипломная работа · Система управления продажей абонементов и ски-пассов</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/cart.js"></script>
+  <script>
+    let selectedMethod  = null;
+    let currentOrder    = null;
+
+    /* ── Загрузка сводки заказа ── */
+    (function loadSummary() {
+      const pending = JSON.parse(
+        localStorage.getItem('skipass_pending_order') || 'null'
+      );
+
+      // Если нет pending-заказа — редирект в корзину
+      if (!pending || pending.cart.length === 0) {
+        window.location.href = 'cart.html';
+        return;
+      }
+
+      // Позиции
+      const itemsEl = document.getElementById('summary-items');
+      itemsEl.innerHTML = pending.cart.map(i => `
+        <div style="display:flex;justify-content:space-between;
+                    font-size:13px;padding:4px 0;
+                    border-bottom:.5px solid var(--border)">
+          <span style="color:var(--muted)">${i.name} × ${i.qty}</span>
+          <span style="font-weight:500">
+            ${(i.price * i.qty).toLocaleString('ru-RU')} сом
+          </span>
+        </div>`).join('');
+
+      // Скидка
+      const discEl = document.getElementById('summary-discount-row');
+      if (pending.discount > 0) {
+        discEl.textContent =
+          `Скидка: −${pending.discount.toLocaleString('ru-RU')} сом`;
+        discEl.style.color = 'var(--green-400)';
+      }
+
+      // Итого
+      document.getElementById('summary-total').textContent =
+        pending.total.toLocaleString('ru-RU') + ' сом';
+    })();
+
+    /* ── Выбор метода оплаты ── */
+    function selectMethod(el, method) {
+      document.querySelectorAll('.pay-method')
+              .forEach(m => m.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedMethod = method;
+
+      const cardForm = document.getElementById('card-form');
+      cardForm.className = method === 'card'
+        ? 'card-form show' : 'card-form';
+
+      document.getElementById('method-error').style.display = 'none';
+    }
+
+    /* ── Форматирование номера карты ── */
+    function formatCard(input) {
+      let val = input.value.replace(/\D/g, '').slice(0, 16);
+      input.value = val.replace(/(.{4})/g, '$1 ').trim();
+    }
+    function formatExp(input) {
+      let val = input.value.replace(/\D/g, '').slice(0, 4);
+      if (val.length >= 2) val = val.slice(0,2) + '/' + val.slice(2);
+      input.value = val;
+    }
+
+    /* ── Переход к обработке ── */
+    function proceedToPayment() {
+      const errEl = document.getElementById('method-error');
+      errEl.style.display = 'none';
+
+      if (!selectedMethod) {
+        errEl.textContent    = 'Выберите способ оплаты';
+        errEl.style.display  = 'block';
+        return;
+      }
+
+      // Валидация карты
+      if (selectedMethod === 'card') {
+        const num  = document.getElementById('card-num').value.replace(/\s/g,'');
+        const exp  = document.getElementById('card-exp').value;
+        const cvv  = document.getElementById('card-cvv').value;
+        const name = document.getElementById('card-name').value.trim();
+
+        if (num.length < 16) {
+          errEl.textContent = 'Введите корректный номер карты';
+          errEl.style.display = 'block'; return;
+        }
+        if (!exp.match(/^\d{2}\/\d{2}$/)) {
+          errEl.textContent = 'Введите срок действия в формате MM/YY';
+          errEl.style.display = 'block'; return;
+        }
+        if (cvv.length < 3) {
+          errEl.textContent = 'Введите CVV-код (3 цифры)';
+          errEl.style.display = 'block'; return;
+        }
+        if (!name) {
+          errEl.textContent = 'Введите имя владельца карты';
+          errEl.style.display = 'block'; return;
+        }
+      }
+
+      // Показываем экран загрузки
+      showScreen('loading');
+      animateLoading();
+    }
+
+    /* ── Анимация загрузки ── */
+    function animateLoading() {
+      const texts = [
+        { text: 'Проверяем данные...', sub: 'Пожалуйста, не закрывайте страницу' },
+        { text: 'Обрабатываем платёж...', sub: 'Соединение защищено TLS' },
+        { text: 'Подтверждаем оплату...', sub: 'Почти готово!' },
+      ];
+      let i = 0;
+      const interval = setInterval(() => {
+        if (i < texts.length) {
+          document.getElementById('loading-text').textContent = texts[i].text;
+          document.getElementById('loading-sub').textContent  = texts[i].sub;
+          i++;
+        }
+      }, 800);
+
+      // Через 2.8 сек — оформляем заказ и показываем QR
+      setTimeout(() => {
+        clearInterval(interval);
+        completeOrder();
+      }, 2800);
+    }
+
+    /* ── Завершение заказа и показ QR ── */
+    function completeOrder() {
+      const methodNames = {
+        card:   'Банковская карта',
+        mbank:  'MBank',
+        optima: 'Optima Pay',
+        cash:   'Наличные (касса)',
+      };
+      currentOrder = finalizeOrder(methodNames[selectedMethod] || selectedMethod);
+      if (!currentOrder) { window.location.href = 'cart.html'; return; }
+
+      // Обновляем шаги
+      document.getElementById('s2').className       = 'step__circle done';
+      document.getElementById('s2').innerHTML       = '<i class="ti ti-check" style="font-size:16px"></i>';
+      document.getElementById('sl2').className      = 'step__label done';
+      document.getElementById('l2').className       = 'step-line done';
+      document.getElementById('s3').className       = 'step__circle active';
+      document.getElementById('sl3').className      = 'step__label active';
+
+      // Показываем экран успеха
+      showScreen('success');
+
+      // Заполняем данные
+      document.getElementById('qr-order-num').textContent  = currentOrder.id;
+      document.getElementById('qr-order-date').textContent = currentOrder.date;
+
+      // Позиции заказа
+      document.getElementById('qr-items-list').innerHTML = `
+        <p class="qr-items__title">Состав заказа</p>` +
+        currentOrder.items.map(it => `
+          <div class="qr-item">
+            <span>${it.name} × ${it.qty}</span>
+            <span style="font-weight:500">
+              ${(it.price * it.qty).toLocaleString('ru-RU')} сом
+            </span>
+          </div>`).join('');
+
+      // Скидка и итого
+      if (currentOrder.discount > 0) {
+        document.getElementById('qr-discount-row').textContent =
+          `Скидка: −${currentOrder.discount.toLocaleString('ru-RU')} сом`;
+        document.getElementById('qr-discount-row').style.color = 'var(--green-400)';
+      }
+      document.getElementById('qr-total-val').textContent =
+        currentOrder.total.toLocaleString('ru-RU') + ' сом';
+
+      // Генерируем QR-код
+      generateQR(currentOrder.id);
+    }
+
+    /* ── Генерация QR-кода ── */
+    function generateQR(orderNum) {
+      const wrap = document.getElementById('qr-canvas-wrap');
+      wrap.innerHTML = '';
+
+      // Данные зашитые в QR: номер заказа + URL верификации
+      const qrData = JSON.stringify({
+        order:    orderNum,
+        issued:   new Date().toISOString(),
+        system:   'SkiPass Manager KG',
+        verify:   `https://skipass.kg/verify/${orderNum}`,
+      });
+
+      QRCode.toCanvas(document.createElement('canvas'), qrData, {
+        width:           200,
+        margin:          1,
+        color: {
+          dark:  '#0C447C',
+          light: '#ffffff',
+        },
+        errorCorrectionLevel: 'H',
+      }, (error, canvas) => {
+        if (error) {
+          wrap.innerHTML =
+            '<p style="color:#e24b4a;font-size:13px">Ошибка генерации QR</p>';
+          return;
+        }
+        canvas.id = 'qr-canvas';
+        canvas.style.borderRadius = '8px';
+        wrap.appendChild(canvas);
+      });
+    }
+
+    /* ── Скачивание QR ── */
+    function downloadQR() {
+      const canvas = document.getElementById('qr-canvas');
+      if (!canvas) return;
+
+      // Создаём canvas с белым фоном и подписью
+      const out = document.createElement('canvas');
+      out.width  = 280;
+      out.height = 340;
+      const ctx  = out.getContext('2d');
+
+      // Фон
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, out.width, out.height);
+
+      // Заголовок
+      ctx.fillStyle = '#0C447C';
+      ctx.font = 'bold 14px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('SKIPASS MANAGER', 140, 28);
+
+      // QR
+      ctx.drawImage(canvas, 40, 40, 200, 200);
+
+      // Номер заказа
+      ctx.fillStyle = '#378ADD';
+      ctx.font = 'bold 16px Arial';
+      ctx.fillText(currentOrder.id, 140, 268);
+
+      // Дата
+      ctx.fillStyle = '#6b7280';
+      ctx.font = '12px Arial';
+      ctx.fillText(currentOrder.date, 140, 288);
+
+      // Подпись
+      ctx.fillStyle = '#b0b8c1';
+      ctx.font = '10px Arial';
+      ctx.fillText('Предъявите на турникете подъёмника', 140, 318);
+
+      // Скачиваем
+      const link    = document.createElement('a');
+      link.download = `skipass-${currentOrder.id}.png`;
+      link.href     = out.toDataURL('image/png');
+      link.click();
+    }
+
+    /* ── Переключение экранов ── */
+    function showScreen(name) {
+      document.querySelectorAll('.pay-screen')
+              .forEach(s => s.classList.remove('active'));
+      document.getElementById('screen-' + name).classList.add('active');
+    }
+  </script>
+</body>
+</html>

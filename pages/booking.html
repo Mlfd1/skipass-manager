@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Купить пропуск — SkiPass Manager</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" />
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="navbar__logo">SKI<span>PASS</span><br>MANAGER</a>
+      <nav class="navbar__links">
+        <a href="../index.html">Главная</a>
+        <a href="features.html">Функционал</a>
+        <a href="passes.html">Абонементы</a>
+        <a href="compare.html">Анализ</a>
+        <a href="about.html">О проекте</a>
+      </nav>
+      <a href="booking.html" class="btn btn--primary"><i class="ti ti-ticket"></i> Купить пропуск</a>
+      <button class="navbar__burger" id="burger"><i class="ti ti-menu-2"></i></button>
+    </div>
+    <div class="mobile-nav" id="mobile-nav">
+      <a href="../index.html">Главная</a>
+      <a href="features.html">Функционал</a>
+      <a href="passes.html">Абонементы</a>
+      <a href="compare.html">Анализ</a>
+      <a href="about.html">О проекте</a>
+      <a href="booking.html" class="active">Купить пропуск</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <p class="section__tag">Онлайн-продажа</p>
+      <h1 class="page-hero__title">Оформление пропуска</h1>
+      <p class="page-hero__sub">Прототип модуля онлайн-продаж — демонстрация интерфейса для дипломной работы.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width:680px">
+
+      <div class="booking-form">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:0.5px solid var(--border)">
+          <i class="ti ti-info-circle" style="font-size:15px;vertical-align:-2px"></i>
+          &nbsp;Это демонстрационная форма. Оплата не производится.
+        </p>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Имя</label>
+            <input type="text" placeholder="Айдан Асанов" />
+          </div>
+          <div class="form-group">
+            <label>Телефон</label>
+            <input type="tel" placeholder="+996 700 000 000" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Тип пропуска</label>
+            <select id="pass-type" onchange="calcPrice()">
+              <option value="1200">Дневной — 1 200 сом</option>
+              <option value="5500">Многодневный — 5 500 сом</option>
+              <option value="28000">Сезонный — 28 000 сом</option>
+              <option value="600">Детский — 600 сом</option>
+              <option value="800">Ночной — 800 сом</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Количество человек</label>
+            <select id="pass-qty" onchange="calcPrice()">
+              <option value="1">1 человек</option>
+              <option value="2">2 человека</option>
+              <option value="3">3 человека</option>
+              <option value="5">5 человек</option>
+              <option value="10">10 человек</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Дата начала</label>
+            <input type="date" id="pass-date" />
+          </div>
+          <div class="form-group">
+            <label>Способ получения карты</label>
+            <select>
+              <option>На кассе курорта</option>
+              <option>Уже есть RFID-карта</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="price-row">
+          <span class="price-row__lbl">Итого к оплате:</span>
+          <span class="price-row__val" id="total-price">1 200 сом</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
+          <button class="btn btn--primary" onclick="showSuccess()">
+            <i class="ti ti-credit-card"></i> Оплатить картой
+          </button>
+          <button class="btn btn--outline" onclick="showSuccess()">
+            <i class="ti ti-building-bank"></i> Оплатить в кассе
+          </button>
+        </div>
+      </div>
+
+      <div id="success-msg" style="display:none;margin-top:1.5rem;background:var(--bg-2);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:2rem;text-align:center">
+        <i class="ti ti-circle-check" style="font-size:48px;color:#639922;display:block;margin-bottom:1rem"></i>
+        <h3 style="font-size:18px;font-weight:600;margin-bottom:.5rem">Пропуск оформлен!</h3>
+        <p style="font-size:14px;color:var(--muted);margin-bottom:1.5rem">
+          Данные отправлены на email. Получите RFID-карту на кассе курорта,
+          предъявив подтверждение или данные аккаунта.
+        </p>
+        <a href="../index.html" class="btn btn--outline">
+          <i class="ti ti-arrow-left"></i> На главную
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__logo">SKIPASS MANAGER</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    function showSuccess() {
+      document.querySelector('.booking-form').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>О проекте — SkiPass Manager</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" />
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="navbar__logo">SKI<span>PASS</span><br>MANAGER</a>
+      <nav class="navbar__links">
+        <a href="../index.html">Главная</a>
+        <a href="features.html">Функционал</a>
+        <a href="passes.html">Абонементы</a>
+        <a href="compare.html">Анализ</a>
+        <a href="about.html" class="active">О проекте</a>
+      </nav>
+      <a href="booking.html" class="btn btn--primary"><i class="ti ti-ticket"></i> Купить пропуск</a>
+      <button class="navbar__burger" id="burger"><i class="ti ti-menu-2"></i></button>
+    </div>
+    <div class="mobile-nav" id="mobile-nav">
+      <a href="../index.html">Главная</a>
+      <a href="features.html">Функционал</a>
+      <a href="passes.html">Абонементы</a>
+      <a href="compare.html">Анализ</a>
+      <a href="about.html" class="active">О проекте</a>
+      <a href="booking.html">Купить пропуск</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <p class="section__tag">Дипломная работа</p>
+      <h1 class="page-hero__title">О проекте</h1>
+      <p class="page-hero__sub">Техническая и концептуальная база системы управления продажей абонементов и ски-пассов.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="section__tag">Цели и задачи</p>
+      <h2 class="section__title">Что решает система</h2>
+      <p class="section__lead">
+        Основные проблемы горнолыжных курортов Кыргызстана, которые устраняет разрабатываемая информационная система.
+      </p>
+      <div class="workflow">
+        <div class="wf-step"><div class="wf-num">1</div><div class="wf-body"><h4>Устранение ручного учёта</h4><p>Переход от бумажных журналов и ручных кассовых операций к полностью цифровому документообороту.</p></div></div>
+        <div class="wf-step"><div class="wf-num">2</div><div class="wf-body"><h4>Автоматизация продаж</h4><p>Онлайн-продажа 24/7 без участия кассира, интеграция с платёжными системами (Visa, MasterCard, MBanking).</p></div></div>
+        <div class="wf-step"><div class="wf-num">3</div><div class="wf-body"><h4>Контроль доступа</h4><p>Замена бумажных билетов на RFID/NFC карты с мгновенной валидацией на турникетах подъёмников.</p></div></div>
+        <div class="wf-step"><div class="wf-num">4</div><div class="wf-body"><h4>Аналитика для управления</h4><p>Предоставление руководству данных о выручке, посещаемости и загрузке трасс в реальном времени.</p></div></div>
+        <div class="wf-step"><div class="wf-num">5</div><div class="wf-body"><h4>Повышение лояльности клиентов</h4><p>Личный кабинет, бонусная программа и онлайн-сервис повышают удовлетворённость и повторные визиты.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="section__tag">Техническая реализация</p>
+      <h2 class="section__title">Стек технологий</h2>
+      <p class="section__lead">Программные и аппаратные компоненты разрабатываемой информационной системы.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem">
+        <div>
+          <p style="font-size:12px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem">Программная часть</p>
+          <div class="tech-grid">
+            <div class="tech-pill"><i class="ti ti-database"></i>PostgreSQL</div>
+            <div class="tech-pill"><i class="ti ti-brand-python"></i>Python / Django</div>
+            <div class="tech-pill"><i class="ti ti-brand-react"></i>React.js</div>
+            <div class="tech-pill"><i class="ti ti-api"></i>REST API</div>
+            <div class="tech-pill"><i class="ti ti-device-mobile"></i>Mobile App</div>
+            <div class="tech-pill"><i class="ti ti-cloud"></i>Cloud / VPS</div>
+            <div class="tech-pill"><i class="ti ti-shield-lock"></i>JWT Auth</div>
+            <div class="tech-pill"><i class="ti ti-bell"></i>Push / SMS</div>
+          </div>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem">Аппаратная часть</p>
+          <div class="tech-grid">
+            <div class="tech-pill"><i class="ti ti-credit-card"></i>RFID Reader</div>
+            <div class="tech-pill"><i class="ti ti-device-desktop"></i>Кассовый ПК</div>
+            <div class="tech-pill"><i class="ti ti-arrows-right-left"></i>Турникет</div>
+            <div class="tech-pill"><i class="ti ti-printer"></i>Принтер карт</div>
+            <div class="tech-pill"><i class="ti ti-wifi"></i>Wi-Fi / 4G</div>
+            <div class="tech-pill"><i class="ti ti-qrcode"></i>QR-сканер</div>
+            <div class="tech-pill"><i class="ti ti-camera"></i>Видеонаблюдение</div>
+            <div class="tech-pill"><i class="ti ti-server"></i>Локальный сервер</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="section__tag">Архитектура</p>
+      <h2 class="section__title">Компоненты системы</h2>
+      <p class="section__lead">Трёхуровневая архитектура: клиентский уровень, серверная логика, база данных.</p>
+      <div class="features-grid">
+        <div class="feat-card"><div class="feat-card__icon"><i class="ti ti-browser"></i></div><h3>Веб-приложение</h3><p>React SPA для клиентов (покупка, личный кабинет) и для администраторов (управление, отчёты).</p></div>
+        <div class="feat-card"><div class="feat-card__icon"><i class="ti ti-server-2"></i></div><h3>Backend API</h3><p>Django REST Framework, обрабатывает запросы, бизнес-логику, интеграцию с оборудованием.</p></div>
+        <div class="feat-card"><div class="feat-card__icon"><i class="ti ti-database"></i></div><h3>База данных</h3><p>PostgreSQL — хранение клиентов, транзакций, пропусков, логов валидации.</p></div>
+        <div class="feat-card"><div class="feat-card__icon"><i class="ti ti-arrows-right-left"></i></div><h3>Турникетный контроллер</h3><p>Микроконтроллер с RFID-считывателем, подключён к серверу через TCP/IP.</p></div>
+        <div class="feat-card"><div class="feat-card__icon"><i class="ti ti-cash"></i></div><h3>Платёжный шлюз</h3><p>Интеграция с банковскими API Кыргызстана (MBANK, Optima Pay, Visa/MC).</p></div>
+        <div class="feat-card"><div class="feat-card__icon"><i class="ti ti-chart-dots"></i></div><h3>Модуль аналитики</h3><p>Агрегация данных, построение отчётов, экспорт в Excel/PDF для руководства.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__logo">SKIPASS MANAGER</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>О нас — SkiPass Manager</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" />
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="navbar__logo">SKI<span>PASS</span><br>MANAGER</a>
+      <nav class="navbar__links">
+        <a href="../index.html">Главная</a>
+        <a href="features.html">Функционал</a>
+        <a href="passes.html">Абонементы</a>
+        <a href="compare.html">Анализ</a>
+        <a href="team.html" class="active">О нас</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:10px">
+        <a href="register.html" class="btn btn--outline" style="padding:8px 14px;font-size:13px">
+          <i class="ti ti-user"></i> Войти
+        </a>
+        <a href="cart.html" class="btn btn--primary cart-nav-btn">
+          <i class="ti ti-shopping-cart"></i> Корзина
+          <span class="cart-badge" id="nav-cart-count">0</span>
+        </a>
+      </div>
+      <button class="navbar__burger" id="burger"><i class="ti ti-menu-2"></i></button>
+    </div>
+    <div class="mobile-nav" id="mobile-nav">
+      <a href="../index.html">Главная</a>
+      <a href="features.html">Функционал</a>
+      <a href="passes.html">Абонементы</a>
+      <a href="compare.html">Анализ</a>
+      <a href="team.html" class="active">О нас</a>
+      <a href="cart.html">Корзина</a>
+      <a href="register.html">Регистрация / Войти</a>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <p class="section__tag">Команда проекта</p>
+      <h1 class="page-hero__title">О нас</h1>
+      <p class="page-hero__sub">
+        Дипломный проект по разработке автоматизированной системы управления
+        продажей абонементов и ски-пассов для горнолыжных курортов Кыргызстана.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="about-mission">
+        <div class="about-mission__text">
+          <p class="section__tag">Миссия</p>
+          <h2 class="section__title">Цифровизация горнолыжного туризма Кыргызстана</h2>
+          <p style="font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:1rem;font-weight:300">
+            Кыргызстан обладает уникальным потенциалом для развития горнолыжного туризма.
+            Высокогорные курорты Каракола, Чункурчака и других зон ежегодно принимают
+            тысячи туристов из стран СНГ и всего мира.
+          </p>
+          <p style="font-size:14px;color:var(--muted);line-height:1.8;font-weight:300">
+            Однако большинство курортов до сих пор работают без цифровых систем продаж.
+            Наш проект — первый шаг к современной, масштабируемой платформе, которая
+            выведет управление абонементами на уровень мировых стандартов.
+          </p>
+        </div>
+        <div class="about-mission__stats">
+          <div class="mission-stat">
+            <span class="mission-stat__n">2025</span>
+            <span class="mission-stat__l">Год разработки</span>
+          </div>
+          <div class="mission-stat">
+            <span class="mission-stat__n">3+</span>
+            <span class="mission-stat__l">Целевых курорта</span>
+          </div>
+          <div class="mission-stat">
+            <span class="mission-stat__n">100%</span>
+            <span class="mission-stat__l">Отечественная разработка</span>
+          </div>
+          <div class="mission-stat">
+            <span class="mission-stat__n">10+</span>
+            <span class="mission-stat__l">Изученных аналогов</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="section__tag">Авторы проекта</p>
+      <h2 class="section__title">Команда разработки</h2>
+      <p class="section__lead">Студенты, работавшие над созданием системы в рамках дипломного проекта.</p>
+      <div class="team-grid">
+
+        <div class="team-card team-card--lead">
+          <div class="team-card__avatar"><i class="ti ti-user"></i></div>
+          <div class="team-card__badge">Руководитель проекта</div>
+          <h3 class="team-card__name">Седова Милана</h3>
+          <p class="team-card__role">Дипломник · Разработчик</p>
+          <p class="team-card__bio">
+            Отвечает за архитектуру системы, разработку backend и интеграцию
+            с платёжными шлюзами. Специализация — информационные системы.
+          </p>
+          <div class="team-card__skills">
+            <span>Python</span><span>Django</span><span>PostgreSQL</span>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="section__tag">Разработка</p>
+      <h2 class="section__title">Этапы проекта</h2>
+      <p class="section__lead">Хронология работы над дипломным проектом.</p>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot tl-dot--done"><i class="ti ti-check"></i></div>
+          <div class="tl-body">
+            <div class="tl-date">Сентябрь 2024</div>
+            <h4>Анализ предметной области</h4>
+            <p>Изучение мировых аналогов (Skidata, Axess), анализ потребностей курортов Кыргызстана, формулирование требований.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot tl-dot--done"><i class="ti ti-check"></i></div>
+          <div class="tl-body">
+            <div class="tl-date">Октябрь–ноябрь 2024</div>
+            <h4>Проектирование системы</h4>
+            <p>Разработка архитектуры, проектирование базы данных, создание прототипов интерфейса в Figma.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot tl-dot--done"><i class="ti ti-check"></i></div>
+          <div class="tl-body">
+            <div class="tl-date">Декабрь 2024 — март 2025</div>
+            <h4>Разработка и тестирование</h4>
+            <p>Программирование backend и frontend модулей, интеграция с RFID-оборудованием, тестирование.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot tl-dot--active"></div>
+          <div class="tl-body">
+            <div class="tl-date">Апрель–май 2025</div>
+            <h4>Защита дипломной работы</h4>
+            <p>Финальное оформление документации, подготовка презентации, защита перед комиссией.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="section__tag">Контакты</p>
+      <h2 class="section__title">Связаться с нами</h2>
+      <p class="section__lead">По вопросам проекта и сотрудничества.</p>
+      <div class="contacts-grid">
+        <div class="contact-card">
+          <div class="feat-card__icon"><i class="ti ti-building"></i></div>
+          <h3>Колледж</h3>
+          <p>Комтехно</p>
+        </div>
+        <div class="contact-card">
+          <div class="feat-card__icon"><i class="ti ti-mail"></i></div>
+          <h3>Email</h3>
+          <p><a href="mailto:milana.sedova07@inbox.ru" style="color:var(--blue-300)">milana.sedova07@inbox.ru</a></p>
+        </div>
+        <div class="contact-card">
+          <div class="feat-card__icon"><i class="ti ti-map-pin"></i></div>
+          <h3>Адрес</h3>
+          <p>г. Бишкек, Комтехно</p>
+        </div>
+        <div class="contact-card">
+          <div class="feat-card__icon"><i class="ti ti-brand-github"></i></div>
+          <h3>GitHub</h3>
+          <p><a href="#" style="color:var(--blue-300)">github.com/skipass-kg</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__logo">SKIPASS MANAGER</span>
+      <span class="footer__copy">Дипломная работа · Система управления продажей абонементов и ски-пассов</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/cart.js"></script>
+</body>
+</html>

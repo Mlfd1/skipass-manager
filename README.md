@@ -1,2 +1,0 @@
-# skipass-manager
-skipass-manager

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Профиль — SkiPass Manager</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Onest:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css"/>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="navbar__logo">SKI<span>PASS</span><br>MANAGER</a>
+      <nav class="navbar__links">
+        <a href="../index.html">Главная</a>
+        <a href="features.html">Функционал</a>
+        <a href="passes.html">Абонементы</a>
+        <a href="compare.html">Анализ</a>
+        <a href="team.html">О нас</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:10px">
+        <a href="register.html" class="btn btn--outline active" style="padding:8px 14px;font-size:13px">
+          <i class="ti ti-user"></i> Профиль
+        </a>
+        <a href="cart.html" class="btn btn--primary cart-nav-btn">
+          <i class="ti ti-shopping-cart"></i> Корзина
+          <span class="cart-badge" id="nav-cart-count">0</span>
+        </a>
+      </div>
+      <button class="navbar__burger" id="burger"><i class="ti ti-menu-2"></i></button>
+    </div>
+    <div class="mobile-nav" id="mobile-nav">
+      <a href="../index.html">Главная</a>
+      <a href="features.html">Функционал</a>
+      <a href="passes.html">Абонементы</a>
+      <a href="compare.html">Анализ</a>
+      <a href="team.html">О нас</a>
+      <a href="cart.html">Корзина</a>
+      <a href="register.html" class="active">Профиль</a>
+    </div>
+  </header>
+
+  <section class="section" style="padding-top:2.5rem">
+    <div class="container" style="max-width:540px">
+
+      <!-- ТАБЫ -->
+      <div class="auth-tabs" id="auth-tabs">
+        <button class="auth-tab active" id="tab-reg"   onclick="switchAuth('reg')">Регистрация</button>
+        <button class="auth-tab"        id="tab-login" onclick="switchAuth('login')">Войти</button>
+      </div>
+
+      <!-- РЕГИСТРАЦИЯ -->
+      <div id="form-reg" class="auth-form">
+        <div class="auth-form__head">
+          <div class="auth-form__icon"><i class="ti ti-user-plus"></i></div>
+          <h1 class="auth-form__title">Создать аккаунт</h1>
+          <p class="auth-form__sub">Зарегистрируйтесь для покупки абонементов онлайн</p>
+        </div>
+        <div class="form-group" style="margin-bottom:12px">
+          <label>Имя и фамилия</label>
+          <input type="text" id="reg-name" placeholder="Айдан Асанов"/>
+        </div>
+        <div class="form-row" style="margin-bottom:12px">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="reg-email" placeholder="email@mail.ru"/>
+          </div>
+          <div class="form-group">
+            <label>Телефон</label>
+            <input type="tel" id="reg-phone" placeholder="+996 700 000 000"/>
+          </div>
+        </div>
+        <div class="form-row" style="margin-bottom:12px">
+          <div class="form-group">
+            <label>Пароль</label>
+            <div class="input-eye">
+              <input type="password" id="reg-pass" placeholder="Мин. 8 символов"/>
+              <button type="button" onclick="togglePass('reg-pass',this)"><i class="ti ti-eye"></i></button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Повторите пароль</label>
+            <div class="input-eye">
+              <input type="password" id="reg-pass2" placeholder="Повторите пароль"/>
+              <button type="button" onclick="togglePass('reg-pass2',this)"><i class="ti ti-eye"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:12px">
+          <label>Дата рождения</label>
+          <input type="date" id="reg-dob"/>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:1.25rem">
+          <input type="checkbox" id="reg-agree" style="margin-top:3px;flex-shrink:0"/>
+          <label for="reg-agree" style="font-size:13px;color:var(--muted);line-height:1.6;cursor:pointer">
+            Я соглашаюсь с <a href="#" style="color:var(--blue-300)">условиями использования</a>
+            и <a href="#" style="color:var(--blue-300)">политикой конфиденциальности</a>
+          </label>
+        </div>
+        <div id="reg-error" class="auth-error" style="display:none"></div>
+        <button class="btn btn--primary btn--block" onclick="doRegister()" style="margin-bottom:12px">
+          <i class="ti ti-user-check"></i> Зарегистрироваться
+        </button>
+        <button class="btn btn--outline btn--block" onclick="switchAuth('login')">
+          Уже есть аккаунт? Войти
+        </button>
+      </div>
+
+      <!-- ВХОД -->
+      <div id="form-login" class="auth-form" style="display:none">
+        <div class="auth-form__head">
+          <div class="auth-form__icon"><i class="ti ti-login"></i></div>
+          <h1 class="auth-form__title">Вход в аккаунт</h1>
+          <p class="auth-form__sub">Войдите чтобы видеть историю покупок</p>
+        </div>
+        <div class="form-group" style="margin-bottom:12px">
+          <label>Email</label>
+          <input type="email" id="login-email" placeholder="email@mail.ru"/>
+        </div>
+        <div class="form-group" style="margin-bottom:1.25rem">
+          <label>Пароль</label>
+          <div class="input-eye">
+            <input type="password" id="login-pass" placeholder="Ваш пароль"/>
+            <button type="button" onclick="togglePass('login-pass',this)"><i class="ti ti-eye"></i></button>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-bottom:1rem">
+          <a href="#" style="font-size:13px;color:var(--blue-300)">Забыли пароль?</a>
+        </div>
+        <div id="login-error" class="auth-error" style="display:none"></div>
+        <button class="btn btn--primary btn--block" onclick="doLogin()" style="margin-bottom:12px">
+          <i class="ti ti-login"></i> Войти
+        </button>
+        <button class="btn btn--outline btn--block" onclick="switchAuth('reg')">
+          Нет аккаунта? Зарегистрироваться
+        </button>
+      </div>
+
+      <!-- ПРОФИЛЬ -->
+      <div id="form-profile" class="auth-form" style="display:none">
+        <div class="auth-form__head">
+          <div class="auth-form__icon" style="background:var(--green-400);color:#fff"><i class="ti ti-user"></i></div>
+          <h1 class="auth-form__title">Личный кабинет</h1>
+          <p class="auth-form__sub" id="profile-name-sub"></p>
+        </div>
+
+        <!-- Данные профиля -->
+        <div class="profile-info">
+          <div class="profile-row"><i class="ti ti-mail"></i><span id="profile-email"></span></div>
+          <div class="profile-row"><i class="ti ti-phone"></i><span id="profile-phone"></span></div>
+          <div class="profile-row"><i class="ti ti-calendar"></i><span id="profile-dob"></span></div>
+        </div>
+
+        <!-- Кнопки -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem">
+          <a href="passes.html" class="btn btn--primary">
+            <i class="ti ti-ticket"></i> Купить пропуск
+          </a>
+          <button class="btn btn--outline" onclick="doLogout()">
+            <i class="ti ti-logout"></i> Выйти
+          </button>
+        </div>
+
+        <!-- История покупок -->
+        <div style="border-top:.5px solid var(--border);padding-top:1.5rem">
+          <h3 style="font-size:15px;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:8px">
+            <i class="ti ti-receipt" style="color:var(--blue-300)"></i>
+            История покупок
+          </h3>
+          <div id="orders-history"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__logo">SKIPASS MANAGER</span>
+      <span class="footer__copy">Дипломная работа · Система управления продажей абонементов и ски-пассов</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/cart.js"></script>
+  <script>
+    const USER_KEY = 'skipass_user';
+
+    function switchAuth(tab) {
+      document.getElementById('form-reg').style.display   = tab === 'reg'   ? 'block' : 'none';
+      document.getElementById('form-login').style.display = tab === 'login' ? 'block' : 'none';
+      document.getElementById('tab-reg').classList.toggle('active',   tab === 'reg');
+      document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+    }
+
+    function togglePass(id, btn) {
+      const inp = document.getElementById(id);
+      inp.type = inp.type === 'password' ? 'text' : 'password';
+      btn.innerHTML = inp.type === 'password'
+        ? '<i class="ti ti-eye"></i>'
+        : '<i class="ti ti-eye-off"></i>';
+    }
+
+    function showError(id, msg) {
+      const el = document.getElementById(id);
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+    function clearError(id) { document.getElementById(id).style.display = 'none'; }
+
+    function doRegister() {
+      clearError('reg-error');
+      const name  = document.getElementById('reg-name').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const phone = document.getElementById('reg-phone').value.trim();
+      const pass  = document.getElementById('reg-pass').value;
+      const pass2 = document.getElementById('reg-pass2').value;
+      const dob   = document.getElementById('reg-dob').value;
+      const agree = document.getElementById('reg-agree').checked;
+
+      if (!name)  return showError('reg-error','Введите имя и фамилию');
+      if (!email) return showError('reg-error','Введите email');
+      if (!/\S+@\S+\.\S+/.test(email)) return showError('reg-error','Некорректный email');
+      if (pass.length < 8) return showError('reg-error','Пароль не менее 8 символов');
+      if (pass !== pass2)  return showError('reg-error','Пароли не совпадают');
+      if (!agree)          return showError('reg-error','Примите условия использования');
+
+      const user = { name, email, phone, dob };
+      localStorage.setItem(USER_KEY, JSON.stringify(user));
+      showProfile(user);
+    }
+
+    function doLogin() {
+      clearError('login-error');
+      const email = document.getElementById('login-email').value.trim();
+      const pass  = document.getElementById('login-pass').value;
+      if (!email) return showError('login-error','Введите email');
+      if (!pass)  return showError('login-error','Введите пароль');
+      const saved = JSON.parse(localStorage.getItem(USER_KEY) || 'null');
+      if (!saved || saved.email !== email)
+        return showError('login-error','Пользователь не найден. Зарегистрируйтесь.');
+      showProfile(saved);
+    }
+
+    function doLogout() {
+      document.getElementById('form-profile').style.display = 'none';
+      document.getElementById('auth-tabs').style.display    = 'flex';
+      switchAuth('login');
+    }
+
+    function renderOrderHistory() {
+      const cont   = document.getElementById('orders-history');
+      if (!cont) return;
+      const orders = getOrders();
+      if (orders.length === 0) {
+        cont.innerHTML = `
+          <div style="text-align:center;padding:2rem 0;color:var(--muted)">
+            <i class="ti ti-receipt-off" style="font-size:40px;display:block;margin-bottom:.75rem"></i>
+            <p style="font-size:14px">Покупок пока нет</p>
+            <a href="passes.html" style="color:var(--blue-300);font-size:13px">Выбрать абонемент →</a>
+          </div>`;
+        return;
+      }
+      cont.innerHTML = `<div class="orders-list">` +
+        orders.map(o => `
+          <div class="order-card">
+            <div class="order-card__head">
+              <span class="order-card__num">${o.id}</span>
+              <span class="order-card__date">${o.date}</span>
+              <span class="order-card__status">${o.status}</span>
+            </div>
+            <div class="order-card__items">
+              ${o.items.map(item => `
+                <div class="order-card__item">
+                  <span class="order-card__item-name">${item.name}</span>
+                  <span>${item.qty} шт. × ${item.price.toLocaleString('ru-RU')} сом</span>
+                </div>`).join('')}
+            </div>
+            <div class="order-card__total">
+              <span style="font-size:13px;color:var(--muted)">
+                ${o.discount > 0 ? `Скидка: −${o.discount.toLocaleString('ru-RU')} сом` : 'Без скидки'}
+              </span>
+              <span class="order-card__total-val">${o.total.toLocaleString('ru-RU')} сом</span>
+            </div>
+          </div>`).join('') +
+        `</div>`;
+    }
+
+    function showProfile(user) {
+      document.getElementById('auth-tabs').style.display     = 'none';
+      document.getElementById('form-reg').style.display      = 'none';
+      document.getElementById('form-login').style.display    = 'none';
+      document.getElementById('form-profile').style.display  = 'block';
+      document.getElementById('profile-name-sub').textContent = user.name;
+      document.getElementById('profile-email').textContent   = user.email || '—';
+      document.getElementById('profile-phone').textContent   = user.phone || '—';
+      document.getElementById('profile-dob').textContent     = user.dob
+        ? new Date(user.dob).toLocaleDateString('ru-RU') : '—';
+      renderOrderHistory();
+    }
+
+    // Авто-вход если уже зарегистрирован
+    (function init() {
+      const saved = JSON.parse(localStorage.getItem(USER_KEY) || 'null');
+      if (saved) showProfile(saved);
+    })();
+  </script>
+</body>
+</html>
